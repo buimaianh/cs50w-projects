@@ -45,11 +45,13 @@ This project is a front-end clone of Google Search, built as part of the CS50 We
 - CSS
 
 ### Folder Structure
-search/
-├── index.html
-├── images.html
-├── advanced.html
-├── styles.css
+```text
+├── search/
+│ ├── index.html
+│ ├── images.html
+│ ├── advanced.html
+│ └── styles.css
+```
 
 ### How to Run
 
