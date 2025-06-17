@@ -2,6 +2,8 @@
 
 This is a Wikipedia-like encyclopedia web app built with Django as part of Harvard's **CS50 Web Programming with Python and JavaScript** course.
 
+Users can browse, search, and read articles written in Markdown. They can also create, edit, and save new pages. A random page feature are included for easier navigation.
+
 ### Features
 
 - **Entry Page**
