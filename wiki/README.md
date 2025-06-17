@@ -42,10 +42,33 @@ This is a Wikipedia-like encyclopedia web app built with Django as part of Harva
 
 ### Folder Structure (Simplified)
 ```text
-├── search/
-│ ├── index.html
-│ ├── images.html
-│ ├── advanced.html
-│ └── README.md
+wiki/
+├── encyclopedia/
+│ ├── templates/
+│ │ └── encyclopedia/
+│ ├── util.py
+│ └── views.py
+├── entries/ # Markdown files for each entry stored here
+├── wiki/
+│ └── settings.py
+├── manage.py
+└── README.md
 ```
+
+### How to Run
+1. Install dependencies:
+
+   ```bash
+   pip install django markdown2
+   ```
+
+2. Run the server:
+
+   ```bash
+   python manage.py runserver
+   ```
+
+3. Access the app at http://127.0.0.1:8000/
+
+
 
