@@ -1,0 +1,22 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Edit page
+{% endblock %}
+
+{% block content %}
+    <h1>Edit Page: {{ title }}</h1>
+
+    <p>
+        You can edit the content of the page below. After making changes, click "Save Changes" to update the page.
+    </p>
+    
+    <form action="{% url 'edit_page' entry=title %}" method="post">
+        {% csrf_token %}
+        <div class="form-section">
+            <label for="edit-content">Content:</label>
+            <textarea class="form-input" id="edit-content" name="edited_content">{{ content }}</textarea>
+            <button class="form-button" type="submit">Save Changes</button>
+        </div>
+    </form>
+{% endblock %}

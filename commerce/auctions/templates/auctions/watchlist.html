@@ -1,0 +1,35 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Watchlist{% endblock %}
+
+{% block content %}
+    <h2>Watchlist</h2>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <div class="listing-list">
+    {% for item in watchlist_items %}
+        <div class="listing-item">
+            <image src="{{ item.listing.image_url }}" alt="{{ item.listing.title }}" style="width: 100px; height: auto;"></image>
+
+            <div class="listing-details">
+                <div class="bold-text">
+                    <a href="{% url 'listing_detail' item.listing.id %}">{{ item.listing.title }}</a>
+                    <button>{% if item.listing.is_active %}Active{% else %}Closed{% endif %}</button>
+                    <p>Current Bid: {{ item.listing.get_current_bid }} VND</p>
+                </div>
+                <div class="blur-text">
+                    <p>Category: {{ item.listing.category }}</p>
+                    <p>Descriptions: {{ item.listing.description }}</p>
+                    <p>Created by: {{ item.listing.seller }}</p>
+                    <p>Created on: {{ item.listing.created_at|date:"F j, Y, g:i a" }}</p>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Watchlist empty.</p>
+    {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Listings by category{% endblock %}
+
+{% block content %}
+    <h2>Listings by "{{ category }}"</h2>
+    
+    <div class="listing-list">
+    {% for listing in listings %}
+        <div class="listing-item">
+            <image src="{{ listing.image_url }}" alt="{{ listing.title }}" style="width: 100px; height: auto;"></image>
+
+            <div class="listing-details">
+                <div class="bold-text">
+                    <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
+                    <p>Current Bid: {{ listing.get_current_bid }} VND</p>
+                </div>
+                <div class="blur-text">
+                    <p>Category: {{ listing.category }}</p>
+                    <p>Descriptions: {{ listing.description }}</p>
+                    <p>Created by: {{ listing.seller }}</p>
+                    <p>Created on: {{ listing.created_at|date:"F j, Y, g:i a" }}</p>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No active listings available.</p>
+    {% endfor %}
+    </div>
+{% endblock %}

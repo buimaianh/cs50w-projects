@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.side-bar {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    background-color: #a4a4a4a1;
+    padding: 20px;
+    gap: 10px;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.content li {
+    margin-bottom: 10px;
+}
+
+/* Common form layout */
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 60%;
+}
+
+/* Common input + textarea */
+.form-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+/* Common button */
+.form-button {
+    width: 100px;
+    align-self: flex-end;
+    padding: 10px;
+    background-color: #4981d5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

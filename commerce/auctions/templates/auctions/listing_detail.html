@@ -1,0 +1,126 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Listing Details{% endblock %}
+
+{% block content %}
+    <div class="listing-section">
+        <div class="listing-section-details">
+            <h2>{{ listing.title }}</h2>
+
+            <div class="button-control">
+                <form method="post" action="{% url 'add_to_watchlist' listing.id %}">
+                    {% csrf_token %}
+                    <div class="listing-section-form-item">
+                        <button type="submit">Add to Watchlist</button>
+
+                        {% comment %}
+                        <div class="message">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {% if "watchlist_message" in message.tags %}
+                                        <p class="{{ message.tags }}">{{ message }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        {% endcomment %}
+                    </div>
+                </form>
+
+                {% if user == listing.seller %}
+                <form method="post" action="{% url 'close_listing' listing.id %}">
+                    {% csrf_token %}
+                    <div class="listing-section-form-item">
+                        <button type="submit">Close listing</button>
+
+                        {% comment %}
+                        <div class="message">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {% if "close_listing_message" in message.tags %}
+                                        <p class="{{ message.tags }}">{{ message }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        {% endcomment %}
+                    </div>
+                </form>
+                {% endif %}
+
+                <div class="message">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "watchlist_message" in message.tags or "close_listing_message" in message.tags %}
+                                <p class="{{ message.tags }}">{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            
+            <image src="{{ listing.image_url }}" alt="{{ listing.title }}" style="width: 300px; height: auto;">
+            <p class="bold-text">VND {{ listing.get_current_bid }}</p>
+            <div class="blur-text">
+                <p>Category: {{ listing.category }}</p>
+                <p>Description: {{ listing.description }}</p>
+                <p>Created by: {{ listing.seller }}</p>
+                <p>Created on: {{ listing.created_at|date:"F j, Y, g:i a" }}</p>
+            </div>
+        </div>
+        
+        <div class="listing-section-form">
+            <form method="post" action="{% url 'place_bid' listing.id %}">
+                {% csrf_token %}
+                <div class="listing-section-form-item">
+                    <label for="bid_amount">Place a bid:</label>
+                    <input id="bid_amount" type="number" name="bid_amount" min="{{ listing.get_current_bid }}" required>
+                    <div class="message">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if "place_bid_message" in message.tags %}
+                                    <p class="{{ message.tags }}">{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <button type="submit">Place bid</button>
+                </div>
+            </form>
+
+            
+        </div>
+    </div>
+    
+    <div class="comments-section">
+        <h3>Comments</h3>
+        
+        <form method="post" action="{% url 'add_comment' listing.id %}">
+            {% csrf_token %}
+            <div class="comments-section-form">
+                <label for="comment">Add a comment:</label>
+                <textarea id="comment" name="comment" required></textarea>
+                <div class="message">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "add_comment_message" in message.tags %}
+                                <p class="{{ message.tags }}">{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+        {% for comment in comments %}
+            <div class="comments-section-item">
+                <p><strong>{{ comment.comment_user.username }}</strong> ({{ comment.created_at|date:"F j, Y, g:i a" }}):</p>
+                <p>{{ comment.content }}</p>
+            </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+    
+{% endblock %}

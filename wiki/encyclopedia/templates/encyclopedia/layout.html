@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'encyclopedia/styles.css' %}">
+    </head>
+    <body>
+        <div class="container">
+            <aside class="side-bar">
+                <h1>Wiki</h1>
+                <form action="{% url 'search' %}" method="get">
+                    {% csrf_token %}
+                    <input class="search-bar" type="text" placeholder="Search..." name="q">
+                </form>
+                <a href="{% url 'index' %}">Home</a>
+                <a href="{% url 'random_page' %}">Random Page</a>
+                <a href="{% url 'new_page' %}">Create New Page</a>
+            </aside>
+
+            <main class="content">
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
+    </body>
+</html>

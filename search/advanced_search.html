@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Google Advanced Search</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .upper-right-links {
+                display: flex;
+                justify-content: flex-end;
+                padding: 10px;
+            }
+            .main h1 {
+                color: #d93025;
+                font-size: 24px;
+                margin-left: 50px;
+                margin-bottom: 20px;
+            }
+            .main h2 {
+                font-size: 18px;
+                margin-left: 50px;
+                margin-bottom: 10px;
+            }
+            .grid-form {
+                display: grid;
+                grid-template-columns: 200px 1fr;
+                gap: 10px;
+                max-width: 60%;
+                margin-left: 50px;
+                align-items: center;
+            }
+            .grid-form p {
+                font-size: 16px;
+            }
+            .grid-form input {
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #dcdcdc;
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            .flex-range {
+                display: flex;
+                gap: 20px;
+                align-items: center;
+            }
+            .flex-range input {
+                width: 100%;
+            }
+            .grid-form button {
+                padding: 10px 20px;
+                background-color: #4285f4;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                justify-self: flex-end;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="upper-right-links">
+            <a href="index.html">Back to Google Search</a>
+        </div>
+        
+        <div class="main">
+            <h1>Advanced Search</h1>
+                <h2>Find pages with...</h2>
+                    <form action="https://www.google.com/search">
+                        <div class="grid-form">
+                            <label for="as_q">all these words:</label>
+                            <input type="text" id="as_q" name="as_q" />
+
+                            <label for="as_epq">exact phrase:</label>
+                            <input type="text" id="as_epq" name="as_epq" />
+
+                            <label for="as_oq">any of these words:</label>
+                            <input type="text" id="as_oq" name="as_oq" />
+
+                            <label for="as_eq">none of these words:</label>
+                            <input type="text" id="as_eq" name="as_eq" />
+
+                            <label for="as_nlo">numbers ranging from:</label>
+                            <div class="flex-range">
+                                <input type="text" name="as_nlo" />
+                                <span>to</span>
+                                <input type="text" name="as_nhi" />
+                            </div>
+
+                            <div></div>
+                            <button type="submit">Advanced Search</button>
+                        </div>  
+                    </form>
+        </div>
+    </body>
+</html>

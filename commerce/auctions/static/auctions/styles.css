@@ -1,0 +1,130 @@
+body{
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+header {
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    text-align: center;
+    background-color: rgb(253, 255, 255);
+}
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+main {
+    padding: 20px;
+}
+
+.listing-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.listing-item {
+    display: flex;
+    padding: 10px;
+    gap:20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+.listing-item img {
+    flex: 0 0 30%;
+}
+.listing-details {
+    flex: 1;
+}
+.bold-text {
+    font-weight: bold;
+}
+.blur-text {
+    color: #999;
+}
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+.form-container button, .comments-section-form button {
+    width: 10%;
+    padding: 10px;
+    background-color: #3994f4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+.form-container input, .listing-section-form-item input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.form-container textarea, .comments-section-form textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 100px;
+}
+.form-container label, .listing-section-form-item label {
+    font-weight: bold;
+}
+.form-container select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.listing-section-form-item, .comments-section-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+}
+.listing-section-form-item button {
+    width: 150px;
+    padding: 10px;
+    background-color: #3994f4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-start;
+}
+.comments-section-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+.button-control {
+    display: flex;
+    gap: 10px;
+}
+.button-control button {
+    padding: 10px;
+    background-color: #ecedef;
+    color: rgb(3, 3, 3);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.success {
+    color: green;
+}
+.error {
+    color: red;
+}
+.info {
+    color: blue;
+}

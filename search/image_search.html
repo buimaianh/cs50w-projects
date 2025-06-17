@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Google Image Search</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .upper-right-links {
+                display: flex;
+                justify-content: flex-end;
+                padding: 10px;
+            }
+            .upper-right-links a {
+                text-decoration: none;
+                color: #1a0dab;
+            }
+            .main {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .main p {
+                margin: 10px;
+                font-size: 100px;
+            }
+            .column {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            .column input {
+                margin: 10px;
+                width: 600px;
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #dcdcdc;
+                border-radius: 24px;
+            }
+            .column button {
+                margin: 10px;
+                padding: 10px 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="upper-right-links">
+            <a href="index.html">Back to Google Search</a>
+        </div>
+
+        <div class="main">
+            <p>Google Images</p>
+            <form action="https://www.google.com/search">
+                <div class="column">
+                    <input type="text" name="q">
+                    <button type="submit">Google Search</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

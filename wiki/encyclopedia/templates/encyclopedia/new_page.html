@@ -1,0 +1,21 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    New Page
+{% endblock %}
+
+{% block content %}
+    <p>
+        Create a new page by entering a title below. The content of the page can be edited after creation.
+    </p>
+    
+    <form action="{% url 'new_page' %}" method="post">
+        {% csrf_token %}
+        <div class="form-section">
+            <input class="form-input" type="text" name="title" placeholder="Page Title">
+            <textarea class="form-input" name="content" placeholder="Page Content"></textarea>
+            <button class="form-button" type="submit">Create Page</button>
+        </div>
+    </form>
+    
+{% endblock %}
