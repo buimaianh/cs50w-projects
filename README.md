@@ -12,7 +12,7 @@ A clone of Google Search, built with HTML and CSS.
 - [x] Advanced Search
 - [x] I'm Feeling Lucky
 
-➡ See [Search README](./search/README.md) for more details.
+See [Search README](./search/README.md) for more details.
 
 ---
 
@@ -23,7 +23,7 @@ A Wikipedia-like web app built with Django.
 - [x] Search, index, random page
 - [x] Markdown to HTML rendering
 
-➡ See [Wiki README](./wiki/README.md) for more details.
+See [Wiki README](./wiki/README.md) for more details.
 
 ---
 
@@ -32,6 +32,6 @@ An eBay-like auction site with Django.
 
 - [x] Listings, bidding, commenting
 - [x] Watchlist, category filters
-- [x] Login/Register
+- [x] Login
 
-➡ See [Commerce README](./commerce/README.md) for more details.
+See [Commerce README](./commerce/README.md) for more details.
