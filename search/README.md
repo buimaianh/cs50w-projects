@@ -1,6 +1,6 @@
 ## Project: Google Search Clone
 
-This project is a front-end clone of Google Search, built as part of the CS50 Web Programming course. It includes implementations of:
+This project is a front-end clone of Google Search, built as part of Harvard's **CS50 Web Programming with Python and JavaScript** course. It includes implementations of:
 
 - Google Search
 - Google Image Search
@@ -46,14 +46,31 @@ This project is a front-end clone of Google Search, built as part of the CS50 We
 
 ### Folder Structure
 ```text
-├── search/
-│ ├── index.html
-│ ├── images.html
-│ ├── advanced.html
-│ └── styles.css
+wiki/
+├── encyclopedia/
+│ ├── templates/
+│ │ └── encyclopedia/
+│ ├── util.py
+│ └── views.py
+├── entries/ # Markdown files for each entry stored here
+├── wiki/
+│ └── settings.py
+├── manage.py
+└── README.md
 ```
 
 ### How to Run
+1. Install dependencies:
 
-Just open `index.html` in your browser. No server required.
+   ```bash
+   pip install django markdown2
+   ```
+
+2. Run the server:
+
+   ```bash
+   python manage.py runserver
+   ```
+
+3. Access the app at http://127.0.0.1:8000/
 
