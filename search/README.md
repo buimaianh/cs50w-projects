@@ -48,8 +48,8 @@ This project is a front-end clone of Google Search, built as part of Harvard's *
 ```text
 ├── search/
 │ ├── index.html
-│ ├── images.html
-│ ├── advanced.html
+│ ├── image_search.html
+│ ├── advanced_search.html
 │ └── README.md
 ```
 
