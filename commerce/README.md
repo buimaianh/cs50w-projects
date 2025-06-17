@@ -56,10 +56,10 @@ Users can create listings, place bids, comment, add items to a watchlist, and br
 - **Django Admin**
   - Site admins can manage:
     - Listings
-    - Bid
-    - Comment
-    - Watchlist
-    - User
+    - Bids
+    - Comments
+    - Watchlists
+    - Users
   - All CRUD actions are supported via Django admin panel.
 
 ### Technologies
