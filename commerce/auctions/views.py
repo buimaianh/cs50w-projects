@@ -57,10 +57,19 @@ def create_new_listing(request):
 
 def listing_detail(request, listing_id):
     listing = Listings.objects.get(id=listing_id)
+
+    user = request.user
+    highest_bid = Bid.objects.filter(listing=listing).order_by('-bid_amount').first()
+    if highest_bid and user == highest_bid.buyer and not listing.is_active:
+        winner = True
+    else:
+        winner = False
+    
     listing_comments = listing.comments.all().order_by('-created_at')
     return render(request, 'auctions/listing_detail.html', {
         'listing': listing,
-        'comments': listing_comments
+        'comments': listing_comments,
+        'winner': winner
         })
 
 def add_to_watchlist(request, listing_id):
@@ -169,4 +178,5 @@ def listings_by_category(request, category_id):
         'listings': listings
     })
     
+
 

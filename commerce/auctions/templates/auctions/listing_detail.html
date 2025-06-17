@@ -3,6 +3,20 @@
 {% block title %}Listing Details{% endblock %}
 
 {% block content %}
+    <div class="winner">
+        {% if not listing.is_active %}
+            {% if winner %}
+                <div class="alert alert-success">
+                    🎉 Congratulations! You won this auction.
+                </div>
+            {% else %}
+                <div class="alert alert-secondary">
+                    ⚠️ This listing is closed.
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
     <div class="listing-section">
         <div class="listing-section-details">
             <h2>{{ listing.title }}</h2>
