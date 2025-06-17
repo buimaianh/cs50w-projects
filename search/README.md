@@ -30,6 +30,7 @@ This project is a front-end clone of Google Search, built as part of the CS50 We
     - This exact word or phrase
     - Any of these words
     - None of these words
+    - Numbers ranging from...to...
   - Styled similar to Google’s own UI
   - Submit redirects to Google’s advanced search with correct query strings
 
