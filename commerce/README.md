@@ -10,6 +10,8 @@ Users can create listings, place bids, comment, add items to a watchlist, and br
   - `Listings`: Represents an auction item (title, description, starting bid, image URL, category, active status, seller, created at)
   - `Bid`: Represents a user's bid for a listing.
   - `Comment`: Represents a comment made on a listing.
+  - `Category`: Represents a group or classification of listings (e.g. Fashion, Electronics, Toys, etc.), allowing users to filter listings by type.
+  - `Watchlist`: Represents a collection of listings that a user is interested in. Users can add items to their personal watchlist to track them easily.
   - Uses Django’s built-in `User` model for authentication.
 
 - **Create Listing**
@@ -54,8 +56,10 @@ Users can create listings, place bids, comment, add items to a watchlist, and br
 - **Django Admin**
   - Site admins can manage:
     - Listings
-    - Bids
-    - Comments
+    - Bid
+    - Comment
+    - Watchlist
+    - User
   - All CRUD actions are supported via Django admin panel.
 
 ### Technologies
