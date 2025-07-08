@@ -28,7 +28,7 @@ A single-page front-end email client built with JavaScript.
 ## 2025-07-08
 - Listed down main functions, DB
     - Models for DB
-        - `User`: stores user registered
+        - `User`: stores users registered
         - `Email`: stores details of all emails composed by users
     - Register a new account
     - Log in
@@ -62,9 +62,9 @@ A single-page front-end email client built with JavaScript.
             - The `user’s email address` is first displayed in an `h2` element
             - Buttons for navigating
             - <div class="emails-view"></div>
-                the content of an email mailbox
+                The content of an email mailbox
             - <div class="compose-view"></div>
-                a form where the user can compose a new email
+                A form where the user can compose a new email
             - Selectively show and hide these views:
                 - `compose` button -> hide `emails-view` - show `compose-view`
                 - `inbox` button -> hide `compose-view` - show `emails-view`
@@ -77,15 +77,17 @@ A single-page front-end email client built with JavaScript.
                     - Takes an argument `inbox`
                     - Capitalize the first character
                     - Updating `innerHTML` of the `emails-view` = `inbox`
-                    *Similarly, `sent`, `archived`
+
+                    _*Similarly, `sent`, `archived`_
+
                 -  `compose` button is clicked 
                     -> call the `compose_email` function
-                    - hides `emails-view`
-                    - shows `compose-view`
+                    - Hides `emails-view`
+                    - Shows `compose-view`
                     - Takes all of the form input fields
-                    - recipient email address
-                    - subject line
-                    - email body
+                    - Recipient email address
+                    - Subject line
+                    - Email body
                     - Sets their value to the empty string '' to clear them out
     - API
         - `GET /emails/<str:mailbox>` (mailbox = `inbox`, `sent`, `archived` )
