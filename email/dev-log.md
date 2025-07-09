@@ -41,7 +41,7 @@ A single-page front-end email client built with JavaScript.
     - Functions that learners must complete
 
         Single-page front-end email client built with JavaScript
-        
+
         - Send Mail
         - Load mailbox
         - View details of email
@@ -53,6 +53,7 @@ A single-page front-end email client built with JavaScript.
     - `a front-end for an email client`
 
         Not static UI. It means dynamic UI:
+
         Dynamic UI refers to a user interface that can change or update its content and structure in response to user interactions or data changes, without requiring a full page reload. It often relies on client-side technologies such as JavaScript, AJAX, or frameworks like React, Vue, or Angular to update the UI dynamically and provide a smoother, more interactive user experience.
 
     - `they won’t actually be sent to real email servers`
@@ -65,7 +66,9 @@ A single-page front-end email client built with JavaScript.
 
     - Note that if the email doesn’t exist, or `if the user does not have access to the email`, the route instead return a 404 Not Found error with a JSON response of {"error": "Email not found."}
         - What does it mean?
+
             Need to check if the user has permission to access the mail before return it to them
+            
         - Why do we need to double check the issue while after the user logs in, they can see only sent and recieved emails?
             - Never trust user input
                 - The user can fix URL like `emails/123` while id `123` is not owned by them
