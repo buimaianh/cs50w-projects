@@ -80,13 +80,6 @@ A single-page front-end email client built with JavaScript.
                 - A person logs out, B person logs in -> cache still saves `123`
                 - B person reload the page -> frontend sends `GET /emails/123/` to backend
             - Programing bugs
-                - Mistakes in filtering the email list
-                    ```
-                        // We have 2 mailboxes: `Inbox` và `Sent`
-                        // But mistake in filtering mailbox name for the email list that filter all emails of the user to `Inbox` mailbox
-
-                        const inboxEmails = allEmails.filter(email => email.to === currentUser.email);
-                    ```
                 - Using the wrong variable
                     ```
                         // Using the wrong variable when call API
