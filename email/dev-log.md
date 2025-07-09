@@ -39,7 +39,9 @@ A single-page front-end email client built with JavaScript.
     _*To additionally practice, I will develop myself the functions_
 
     - Functions that learners must complete
+
         Single-page front-end email client built with JavaScript
+        
         - Send Mail
         - Load mailbox
         - View details of email
