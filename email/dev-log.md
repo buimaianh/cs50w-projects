@@ -79,18 +79,7 @@ A single-page front-end email client built with JavaScript.
                 - A person logs in -> email `123` is saved to cache
                 - A person logs out, B person logs in -> cache still saves `123`
                 - B person reload the page -> frontend sends `GET /emails/123/` to backend
-            - Programing bugs
-                - Using the wrong variable
-                    ```
-                        // Using the wrong variable when call API
-                        function handleClick(email) {
-                        // Send `message_id` not `id` of the email
-                        fetch(`/emails/${email.message_id}`)
-                            .then(res => res.json())
-                            .then(data => console.log(data));
-                        }
-                    ```
-
+                
 ## 2025-07-09
 - Details of functions, models
     - Tables of database
