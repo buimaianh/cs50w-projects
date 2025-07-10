@@ -3,27 +3,33 @@
 A single-page front-end email client built with JavaScript.
 
 ## 2025-07-07
-- Read project information to understand overview of the project
-    - Makes API calls to send and receive emails
-    - Register new account
-    - DB stores emails, users
-    - Log in
-    - Log out
-    - Button: `Inbox`, `Sent`, `Archived`, `Compose`
-    - Single page application
-    - Default route `index`
-    - Send Mail
-    - Load mailbox
-    - View details of email
-    - Mark an email as read
-    - Archive an email
-    - Reply the email
+<details>
+    <summary>Read project information to understand overview of the project</summary>
 
-- Noted some keywords which need to be searched to more understand:
-    - `a front-end for an email client`
-    - `they won’t actually be sent to real email servers`
-    - `credentials need not be valid credentials for actual email addresses`
-    - Note that if the email doesn’t exist, or `if the user does not have access to the email`, the route instead return a 404 Not Found error with a JSON response of {"error": "Email not found."}
+                - Makes API calls to send and receive emails
+                - Register new account
+                - DB stores emails, users
+                - Log in
+                - Log out
+                - Button: `Inbox`, `Sent`, `Archived`, `Compose`
+                - Single page application
+                - Default route `index`
+                - Send Mail
+                - Load mailbox
+                - View details of email
+                - Mark an email as read
+                - Archive an email
+                - Reply the email
+</details>
+
+<details>
+    <summary>Noted some keywords which need to be searched to more understand</summary>
+
+                - `a front-end for an email client`
+                - `they won’t actually be sent to real email servers`
+                - `credentials need not be valid credentials for actual email addresses`
+                - Note that if the email doesn’t exist, or `if the user does not have access to the email`, the route instead return a 404 Not Found error with a JSON response of {"error": "Email not found."}
+</details>
 
 ## 2025-07-08
 - Listed down main functions, DB
@@ -121,7 +127,7 @@ A single-page front-end email client built with JavaScript.
                 - `archived`
                     - BooleanField(default=False)
             ```
-            
+
     - Register a new account
         - UI
             - Heading: `Register a new account`
