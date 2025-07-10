@@ -4,7 +4,7 @@ A single-page front-end email client built with JavaScript.
 
 ## 2025-07-07
 <details>
-<summary>1. Read project information to understand overview of the project</summary>
+<summary>1. Project Overview</summary>
 
 - Makes API calls to send and receive emails
 - Register new account
@@ -20,8 +20,10 @@ A single-page front-end email client built with JavaScript.
 - Mark an email as read
 - Archive an email
 - Reply the email
+</details>
 
-<summary>2. Noted some keywords which need to be searched to more understand</summary>
+<details>
+<summary>2. Q&A</summary>
 
 - `a front-end for an email client`
 - `they won’t actually be sent to real email servers`
@@ -31,12 +33,12 @@ A single-page front-end email client built with JavaScript.
 
 ## 2025-07-08
 <details>
-
 <summary>1. Listed down main functions, DB</summary>
 
 <details>
-
 <summary>1.1. Functions were built by CS50</summary>
+
+_*To additionally practice, I will develop myself the functions_
 
 - Tables of database
     - `User`: stores users registered
@@ -46,8 +48,9 @@ A single-page front-end email client built with JavaScript.
 - Log out
 - API
 
-_*To additionally practice, I will develop myself the functions_
+</details>
 
+<details>
 <summary>1.2. Functions that learners must complete</summary>
 
 Single-page front-end email client built with JavaScript
@@ -58,9 +61,11 @@ Single-page front-end email client built with JavaScript
 - Mark an email as read
 - Archive an email
 - Reply the email
+</details>
 
 </details>
 
+<details>
 <summary>2. Searched some noted keywords</summary>
 
 - `a front-end for an email client`
@@ -84,18 +89,20 @@ Single-page front-end email client built with JavaScript
         Need to check if the user has permission to access the mail before return it to them
 
     - Why do we need to double check the issue while after the user logs in, they can see only sent and recieved emails?
+
         - Never trust user input
             - The user can fix URL like `emails/123` while id `123` is not owned by them
             - Development error by dev/QA makes Security vulnerability
-    - New knowledge about security:
+
+    - New knowledge about security
+
         - Should use `404` (Not found error - means the email not exist) than `403` (Forbiden - the email existed but the user is not owner -> hacker still can try to find way to access the email)
         - Cache bugs
             - A person logs in -> email `123` is saved to cache
             - A person logs out, B person logs in -> cache still saves `123`
             - B person reload the page -> frontend sends `GET /emails/123/` to backend
 
-
-</details>   
+</details>
 
 ## 2025-07-09
 <details>
