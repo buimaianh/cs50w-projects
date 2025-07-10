@@ -36,7 +36,7 @@ A single-page front-end email client built with JavaScript.
 <summary>Listed down main functions, DB</summary>
 
 <details>
-<summary>Functions were built by CS50</summary>
+    <summary>Functions were built by CS50</summary>
 
 - Tables of database
     - `User`: stores users registered
@@ -48,17 +48,18 @@ A single-page front-end email client built with JavaScript.
 
 _*To additionally practice, I will develop myself the functions_
 </details>
+<details>
+    <summary>Functions that learners must complete</summary>
 
-- Functions that learners must complete
+Single-page front-end email client built with JavaScript
 
-    Single-page front-end email client built with JavaScript
-
-    - Send Mail
-    - Load mailbox
-    - View details of email
-    - Mark an email as read
-    - Archive an email
-    - Reply the email
+- Send Mail
+- Load mailbox
+- View details of email
+- Mark an email as read
+- Archive an email
+- Reply the email
+</details>
 </details>
 - Searched some noted keywords
     - `a front-end for an email client`
