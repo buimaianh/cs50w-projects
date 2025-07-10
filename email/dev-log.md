@@ -82,7 +82,7 @@ Single-page front-end email client built with JavaScript
 
     Don't need use actual email address and password
 
-- Note that if the email doesn’t exist, or `if the user does not have access to the email`, the route instead return a 404 Not Found error with a JSON response of {"error": "Email not found."}
+- `Note that if the email doesn’t exist, or <u>if the user does not have access to the email</u>, the route instead return a 404 Not Found error with a JSON response of {"error": "Email not found."}`
 
     - What does it mean?
 
