@@ -63,22 +63,33 @@ Single-page front-end email client built with JavaScript
 </details>
 
 </details>
-- Searched some noted keywords
-    - `a front-end for an email client`
 
+<details>
+<summary>2. Searched some noted keywords</summary>
+
+- `a front-end for an email client`
+
+    ```
         Not static UI. It means dynamic UI:
 
         Dynamic UI refers to a user interface that can change or update its content and structure in response to user interactions or data changes, without requiring a full page reload. It often relies on client-side technologies such as JavaScript, AJAX, or frameworks like React, Vue, or Angular to update the UI dynamically and provide a smoother, more interactive user experience.
+    ```
 
-    - `they won’t actually be sent to real email servers`
+- `they won’t actually be sent to real email servers`
 
+    ```
         Emails will not be sent to actual servers of email services (Gmail, Yahoo, Outlook...) which are used to send and receive emails over the Internet.
+    ```
 
-    - `credentials need not be valid credentials for actual email addresses`
+- `credentials need not be valid credentials for actual email addresses`
 
+    ```
         Don't need use actual email address and password
+    ```
 
-    - Note that if the email doesn’t exist, or `if the user does not have access to the email`, the route instead return a 404 Not Found error with a JSON response of {"error": "Email not found."}
+- Note that if the email doesn’t exist, or `if the user does not have access to the email`, the route instead return a 404 Not Found error with a JSON response of {"error": "Email not found."}
+
+    ```
         - What does it mean?
 
             Need to check if the user has permission to access the mail before return it to them
@@ -93,7 +104,9 @@ Single-page front-end email client built with JavaScript
                 - A person logs in -> email `123` is saved to cache
                 - A person logs out, B person logs in -> cache still saves `123`
                 - B person reload the page -> frontend sends `GET /emails/123/` to backend
-                
+    ```
+    
+</details>             
 ## 2025-07-09
 - Details of functions, models
     - Tables of database
