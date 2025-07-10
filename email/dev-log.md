@@ -228,7 +228,7 @@ Where stores details of all emails composed by users
 </details>
 
 <details>
-<summary>b. Logic
+<summary>b. Logic</summary>
 
 - url `logout/`
 - method == GET
@@ -361,38 +361,39 @@ Where stores details of all emails composed by users
 
 <details>
 <summary>1. Default route `index`</sumamry>
-    - User signed in
-    - Render `mail/inbox.html`
-        - The `user’s email address` is first displayed in an `h2` element
-        - Buttons for navigating
-        - <div class="emails-view"></div>
-            The content of an email mailbox
-        - <div class="compose-view"></div>
-            A form where the user can compose a new email
-        - Selectively show and hide these views:
-            - `compose` button -> hide `emails-view` - show `compose-view`
-            - `inbox` button -> hide `compose-view` - show `emails-view`
-        - DOM content of the page has been loaded -> attach event listeners to each of the buttons
-            - `inbox` button is clicked
-                -> call the `load_mailbox` function with the argument `inbox`
-                - Shows `emails-view`
-                - Hides `compose-view`
-                - Name of mailbox = `inbox`
-                - Takes an argument `inbox`
-                - Capitalize the first character
-                - Updating `innerHTML` of the `emails-view` = `inbox`
 
-                _*Similarly, `sent`, `archived`_
+- User signed in
+- Render `mail/inbox.html`
+    - The `user’s email address` is first displayed in an `h2` element
+    - Buttons for navigating
+    - <div class="emails-view"></div>
+        The content of an email mailbox
+    - <div class="compose-view"></div>
+        A form where the user can compose a new email
+    - Selectively show and hide these views:
+        - `compose` button -> hide `emails-view` - show `compose-view`
+        - `inbox` button -> hide `compose-view` - show `emails-view`
+    - DOM content of the page has been loaded -> attach event listeners to each of the buttons
+        - `inbox` button is clicked
+            -> call the `load_mailbox` function with the argument `inbox`
+            - Shows `emails-view`
+            - Hides `compose-view`
+            - Name of mailbox = `inbox`
+            - Takes an argument `inbox`
+            - Capitalize the first character
+            - Updating `innerHTML` of the `emails-view` = `inbox`
 
-            -  `compose` button is clicked 
-                -> call the `compose_email` function
-                - Hides `emails-view`
-                - Shows `compose-view`
-                - Takes all of the form input fields
-                - Recipient email address
-                - Subject line
-                - Email body
-                - Sets their value to the empty string '' to clear them 
+            _*Similarly, `sent`, `archived`_
+
+        -  `compose` button is clicked 
+            -> call the `compose_email` function
+            - Hides `emails-view`
+            - Shows `compose-view`
+            - Takes all of the form input fields
+            - Recipient email address
+            - Subject line
+            - Email body
+            - Sets their value to the empty string '' to clear them 
 </details>
 
 <details>
