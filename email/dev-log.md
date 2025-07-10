@@ -20,9 +20,7 @@ A single-page front-end email client built with JavaScript.
 - Mark an email as read
 - Archive an email
 - Reply the email
-</details>
 
-<details>
 <summary>2. Noted some keywords which need to be searched to more understand</summary>
 
 - `a front-end for an email client`
@@ -33,9 +31,11 @@ A single-page front-end email client built with JavaScript.
 
 ## 2025-07-08
 <details>
+
 <summary>1. Listed down main functions, DB</summary>
 
 <details>
+
 <summary>1.1. Functions were built by CS50</summary>
 
 - Tables of database
@@ -47,9 +47,7 @@ A single-page front-end email client built with JavaScript.
 - API
 
 _*To additionally practice, I will develop myself the functions_
-</details>
 
-<details>
 <summary>1.2. Functions that learners must complete</summary>
 
 Single-page front-end email client built with JavaScript
@@ -60,224 +58,227 @@ Single-page front-end email client built with JavaScript
 - Mark an email as read
 - Archive an email
 - Reply the email
-</details>
 
 </details>
 
-<details>
 <summary>2. Searched some noted keywords</summary>
 
 - `a front-end for an email client`
 
-    ```
-        Not static UI. It means dynamic UI:
+    Not static UI. It means dynamic UI:
 
-        Dynamic UI refers to a user interface that can change or update its content and structure in response to user interactions or data changes, without requiring a full page reload. It often relies on client-side technologies such as JavaScript, AJAX, or frameworks like React, Vue, or Angular to update the UI dynamically and provide a smoother, more interactive user experience.
-    ```
+    Dynamic UI refers to a user interface that can change or update its content and structure in response to user interactions or data changes, without requiring a full page reload. It often relies on client-side technologies such as JavaScript, AJAX, or frameworks like React, Vue, or Angular to update the UI dynamically and provide a smoother, more interactive user experience.
 
 - `they won’t actually be sent to real email servers`
 
-    ```
-        Emails will not be sent to actual servers of email services (Gmail, Yahoo, Outlook...) which are used to send and receive emails over the Internet.
-    ```
+    Emails will not be sent to actual servers of email services (Gmail, Yahoo, Outlook...) which are used to send and receive emails over the Internet.
 
 - `credentials need not be valid credentials for actual email addresses`
 
-    ```
-        Don't need use actual email address and password
-    ```
+    Don't need use actual email address and password
 
 - Note that if the email doesn’t exist, or `if the user does not have access to the email`, the route instead return a 404 Not Found error with a JSON response of {"error": "Email not found."}
 
-    ```
-        - What does it mean?
+    - What does it mean?
 
-            Need to check if the user has permission to access the mail before return it to them
+        Need to check if the user has permission to access the mail before return it to them
 
-        - Why do we need to double check the issue while after the user logs in, they can see only sent and recieved emails?
-            - Never trust user input
-                - The user can fix URL like `emails/123` while id `123` is not owned by them
-                - Development error by dev/QA makes Security vulnerability
-        - New knowledge about security:
-            - Should use `404` (Not found error - means the email not exist) than `403` (Forbiden - the email existed but the user is not owner -> hacker still can try to find way to access the email)
-            - Cache bugs
-                - A person logs in -> email `123` is saved to cache
-                - A person logs out, B person logs in -> cache still saves `123`
-                - B person reload the page -> frontend sends `GET /emails/123/` to backend
-    ```
-    
-</details>             
+    - Why do we need to double check the issue while after the user logs in, they can see only sent and recieved emails?
+        - Never trust user input
+            - The user can fix URL like `emails/123` while id `123` is not owned by them
+            - Development error by dev/QA makes Security vulnerability
+    - New knowledge about security:
+        - Should use `404` (Not found error - means the email not exist) than `403` (Forbiden - the email existed but the user is not owner -> hacker still can try to find way to access the email)
+        - Cache bugs
+            - A person logs in -> email `123` is saved to cache
+            - A person logs out, B person logs in -> cache still saves `123`
+            - B person reload the page -> frontend sends `GET /emails/123/` to backend
+
+
+</details>   
+
 ## 2025-07-09
-- Details of functions, models
-    - Tables of database
-        - `User`
+<details>
+<summary>1. Details of functions, models</summary>
 
-            ```
-                Where stores users registered
+- Tables of database
+    - `User`
 
-                Inherit from `AbstractUser` model provided by Django, not add or change any fields.
-            ```
+        ```
+            Where stores users registered
 
-        - `Email`
+            Inherit from `AbstractUser` model provided by Django, not add or change any fields.
+        ```
 
-            ```
-                Where stores details of all emails composed by users
+    - `Email`
 
-                - `id` (auto created by Django)
-                - `user` (to authorize inputs from a user)
-                    - ForeignKey
-                    - on_delete=models.CASCADE
-                    - related_name="emails"
-                - `sender`
-                    - ForeignKey
-                    - on_delete=models.CASCADE
-                    - related_name="emails_sent"
-                - `recipients`
-                    - ManyToManyField
-                    - on_delete=models.CASCADE
-                    - related_name="emails_recieved"
-                - `subject`
-                    - CharField(max_length=255)
-                - `body`
-                    - TextField
-                    - blank=True
-                - `timestamp`
-                    - DateTimeField(auto_now_add=True)
-                - `read`
-                    - BooleanField(default=False)
-                - `archived`
-                    - BooleanField(default=False)
-            ```
+        ```
+            Where stores details of all emails composed by users
 
-    - Register a new account
-        - UI
-            - Heading: `Register a new account`
-            - Input 1: email
-            - Input 2: password
-            - Input 3: password (to confirm)
-            - Button: `Register`
-            - Href: `Already have a account <link> Login here`
-            - A message will be dislayed to indicate the result of the registration
-        - Logic
-            - url `register/`
-            - method == POST 
-                - get `email`, `password` , `confirmed_password`
-                - `password` != `confirmed_password`
-                - render `emails/register.html`, message: `Passwords must match.`
-                - `password` == `confirmed_password`
-                - create a new `User` instance
-                - user.save()
-                - log_in(request, user)
-                - redirect("index")
-            - method == GET
-                - render `emails/register.html`
-    - Log in
-        - UI
-            - Heading: `Log in`
-            - Input 1: email
-            - Input 2: password
-            - Button: `Log In`
-            - Href: `Don't have account? <link> Sign up.`
-            - A message will be dislayed to indicate the result of the login
-        - Logic
-            - url `login/`
-            - method == POST
-                - get `email`, `password`
-                - user = authenticate(request, username=email, password=password)
-                - user is None
-                - return `emails/login.html`, message: `Invalid email and/or password.`
-                - use is not None
-                - log_in(request, user)
-                - redirect("index")
-            - method == GET
-                - render `emails/login.html`
-    - Log out
-        - url `logout/`
+            - `id` (auto created by Django)
+            - `user` (to authorize inputs from a user)
+                - ForeignKey
+                - on_delete=models.CASCADE
+                - related_name="emails"
+            - `sender`
+                - ForeignKey
+                - on_delete=models.CASCADE
+                - related_name="emails_sent"
+            - `recipients`
+                - ManyToManyField
+                - on_delete=models.CASCADE
+                - related_name="emails_recieved"
+            - `subject`
+                - CharField(max_length=255)
+            - `body`
+                - TextField
+                - blank=True
+            - `timestamp`
+                - DateTimeField(auto_now_add=True)
+            - `read`
+                - BooleanField(default=False)
+            - `archived`
+                - BooleanField(default=False)
+        ```
+
+- Register a new account
+    - UI
+        - Heading: `Register a new account`
+        - Input 1: email
+        - Input 2: password
+        - Input 3: password (to confirm)
+        - Button: `Register`
+        - Href: `Already have a account <link> Login here`
+        - A message will be dislayed to indicate the result of the registration
+    - Logic
+        - url `register/`
+        - method == POST 
+            - get `email`, `password` , `confirmed_password`
+            - `password` != `confirmed_password`
+            - render `emails/register.html`, message: `Passwords must match.`
+            - `password` == `confirmed_password`
+            - create a new `User` instance
+            - user.save()
+            - log_in(request, user)
+            - redirect("index")
         - method == GET
-            - log_out(request)
-            - redirect("login_view")
-    - Inbox page
-        - UI
-            - Header
-                - Heading: User’s email address
-                - Button: `Log out`
-                - Navibar
-                    - Button 1: `Inbox`
-                    - Button 2: `Sent`
-                    - Button 3: `Archived`
-                    - Button 4: `+ Compose`
-            - Main
-                - Compose
-                    - Heading: `Compose a new email`
-                    - Input 1: `To`
-                    - Input 2: `Subject`
-                    - Input 3: Body
-                    - Button: `Send`
-                - `Inbox`
-                    - Heading: `Inbox`
-                    - Display each email of a list by a box
-                        - Sender
-                        - Subject
-                        - Timestamp
-                - `Sent`
-                    - Heading: `Sent`
-                    - Display each email of a list by box
-                        - `To:` recipients
-                        - Subject
-                        - Timestamp
-                - `Archived`
-                    - Heading: `Archived`
-                    - Display each email of a list by box
-                        - Sender
-                        - Subject
-                        - Timestamp
-                    - Button: `Unarchive`
-                - Details of an email
-                    - `From:` sender
+            - render `emails/register.html`
+- Log in
+    - UI
+        - Heading: `Log in`
+        - Input 1: email
+        - Input 2: password
+        - Button: `Log In`
+        - Href: `Don't have account? <link> Sign up.`
+        - A message will be dislayed to indicate the result of the login
+    - Logic
+        - url `login/`
+        - method == POST
+            - get `email`, `password`
+            - user = authenticate(request, username=email, password=password)
+            - user is None
+            - return `emails/login.html`, message: `Invalid email and/or password.`
+            - use is not None
+            - log_in(request, user)
+            - redirect("index")
+        - method == GET
+            - render `emails/login.html`
+- Log out
+    - url `logout/`
+    - method == GET
+        - log_out(request)
+        - redirect("login_view")
+- Inbox page
+    - UI
+        - Header
+            - Heading: User’s email address
+            - Button: `Log out`
+            - Navibar
+                - Button 1: `Inbox`
+                - Button 2: `Sent`
+                - Button 3: `Archived`
+                - Button 4: `+ Compose`
+        - Main
+            - Compose
+                - Heading: `Compose a new email`
+                - Input 1: `To`
+                - Input 2: `Subject`
+                - Input 3: Body
+                - Button: `Send`
+            - `Inbox`
+                - Heading: `Inbox`
+                - Display each email of a list by a box
+                    - Sender
+                    - Subject
+                    - Timestamp
+            - `Sent`
+                - Heading: `Sent`
+                - Display each email of a list by box
                     - `To:` recipients
-                    - `Subject:` subject
-                    - `Timestamp:` timestamp
-                    - Button 1: `Reply`
-                    - Button 2: `Archive`
-                    - Body
-                - Reply
-                    - Input 1: `To:` pre-fill sender email of the mail
-                    - Input 2: `Re:` pre-fill subject of the email
-                    - Input 3: pre-fill `On Jan 1 2020, 12:00 AM <sender email> wrote: <body of the email>`
-                    - Button: `Reply`
-        - Logic
-            - Send Mail
-                - Button["Send"].onsubmit = () => {fetch(url, {method: 'POST', body: JSON.stringify(data)})}
-                    - url = `emails/`
-                    - data = {recipients: ['a@gmail.com', 'a@gmail.com', 'a@gmail.com'],
-                            subject: `
-                    }
-            - Load mailbox
-            - View details of email
-            - Mark an email as read
-            - Archive an email
-            - Reply the email
-- Notes
-    - How to choose correct Field types for a field when use Model of Django
-        - Learn some popular Field types
-        - Define datatype of the field
-        - Check table of contents at [Django documentation](https://docs.djangoproject.com/en/5.2/)
-        - Pick up some field types corresponding to defined datatype
-        - Read their usages
-        - Pick up correct field type
-    - How Django authenticates username and password
-        - Search if username exists in `User` table
-        - If existed, get hashed password corresponding to the username
-            - Split the hashed password into `algorithm`, `number of iteration` and `salt`
-            - Use them to hash input password
-            - Compare stored hashed password with hashed input password
-            - If match, return a corresponding user object
-            - If no match, return `None`
-        - If not existed, return `None`
-    - Why need to call `log_in(request, user)` after authentication?
-        - Authentication only verifies the credentials
-        - Call `log_in(request, user)` starts a session and logs the user in
-        - If skip the call, the user is not remembered as logged in, so request.user will AnonymousUser. They will still appear as logged out even if credentials are valid
+                    - Subject
+                    - Timestamp
+            - `Archived`
+                - Heading: `Archived`
+                - Display each email of a list by box
+                    - Sender
+                    - Subject
+                    - Timestamp
+                - Button: `Unarchive`
+            - Details of an email
+                - `From:` sender
+                - `To:` recipients
+                - `Subject:` subject
+                - `Timestamp:` timestamp
+                - Button 1: `Reply`
+                - Button 2: `Archive`
+                - Body
+            - Reply
+                - Input 1: `To:` pre-fill sender email of the mail
+                - Input 2: `Re:` pre-fill subject of the email
+                - Input 3: pre-fill `On Jan 1 2020, 12:00 AM <sender email> wrote: <body of the email>`
+                - Button: `Reply`
+    - Logic
+        - Send Mail
+            - Button["Send"].onsubmit = () => {fetch(url, {method: 'POST', body: JSON.stringify(data)})}
+                - url = `emails/`
+                - data = {recipients: ['a@gmail.com', 'a@gmail.com', 'a@gmail.com'],
+                        subject: `
+                }
+        - Load mailbox
+        - View details of email
+        - Mark an email as read
+        - Archive an email
+        - Reply the email
+
+<summary>2. Notes</summary>
+
+- How to choose correct Field types for a field when use Model of Django
+
+    - Learn some popular Field types
+    - Define datatype of the field
+    - Check table of contents at [Django documentation](https://docs.djangoproject.com/en/5.2/)
+    - Pick up some field types corresponding to defined datatype
+    - Read their usages
+    - Pick up correct field type
+
+- How Django authenticates username and password
+
+    - Search if username exists in `User` table
+    - If existed, get hashed password corresponding to the username
+        - Split the hashed password into `algorithm`, `number of iteration` and `salt`
+        - Use them to hash input password
+        - Compare stored hashed password with hashed input password
+        - If match, return a corresponding user object
+        - If no match, return `None`
+    - If not existed, return `None`
+
+- Why need to call `log_in(request, user)` after authentication?
+
+    - Authentication only verifies the credentials
+    - Call `log_in(request, user)` starts a session and logs the user in
+    - If skip the call, the user is not remembered as logged in, so request.user will AnonymousUser. They will still appear as logged out even if credentials are valid
+
+</details>
 ## 
 - Default route `index`
     - User signed in
