@@ -360,7 +360,7 @@ Where stores details of all emails composed by users
 ## Notes
 
 <details>
-<summary>1. Default route `index`</sumamry>
+<summary>1. Default route `index`</summary>
 
 - User signed in
 - Render `mail/inbox.html`
