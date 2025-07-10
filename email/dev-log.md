@@ -400,6 +400,7 @@ Where stores details of all emails composed by users
 <summary>2. API</summary>
 
 - `GET /emails/<str:mailbox>` (mailbox = `inbox`, `sent`, `archived` )
+
     Get a list of all emails
 
     - Return _a list of all emails_ in that mailbox, in _reverse chronological order_ in _JSON format_
@@ -411,7 +412,9 @@ Where stores details of all emails composed by users
         - `timestamp`: timestamp
         - `read`: boolean values
         - `archived`: boolean values
+
     - How to recall
+
         ```
             fetch('/emails/<str:mailbox>')
             .then(response => response.json())
@@ -422,9 +425,12 @@ Where stores details of all emails composed by users
                 // ... do something else with emails ...
             });
         ```
+
     - Note
         invalid mailbox (anything other than `inbox`, `sent`, or `archive`) -> get back the JSON response `{"error": "Invalid mailbox."}`
+
 - `GET /emails/<int:email_id>`
+
     Get details of an email
 
     - Return a JSON representation of the email
@@ -436,7 +442,9 @@ Where stores details of all emails composed by users
         - `timestamp`: timestamp
         - `read`: boolean values
         - `archived`: boolean values
+
     - How to call
+
         ```
             fetch('/emails/<int:email_id>')
             .then(response => response.json())
@@ -447,16 +455,21 @@ Where stores details of all emails composed by users
                 // ... do something else with email ...
             });
         ```
+
     - Note
         email doesn’t exist/the user does not have access to the email -> route return a `404 Not Found error` with a JSON response of `{"error": "Email not found."}`
+
 - `POST /emails`
+
     Compose a new email
 
     - Requires three pieces of data to be submitted
         - a `recipients` value (a `comma-separated string` of all users to send an email to)
         - a `subject` string
         - a `body` string
+
     - How to call
+
         ```
             fetch('/emails', {
             method: 'POST',
@@ -472,17 +485,22 @@ Where stores details of all emails composed by users
                 console.log(result);
             });
         ```
+
     - Note
         - Email is sent successfully -> respond with a `201` status code and a JSON response of `{"message": "Email sent successfully."}`
         - Must be `at least one email recipient`
             - Recipient is blank -> respond with a `400` status code and a JSON response of `{"error": "At least one recipient required."}`
         - `All recipients must be valid users` who have registered on this particular web application
             - Try to send an email to invalid email -> get a JSON response of `{"error": "User with email <email_address> does not exist."}`
+
 - `PUT /emails/<int:email_id>`
+
     Modify some fields of a email
 
     - Mark an email as read/unread or as archived/unarchived
+
     - How to call
+
         ```
             fetch('/emails/<int:email_id>', {
             method: 'PUT',
@@ -491,4 +509,5 @@ Where stores details of all emails composed by users
             })
             })
         ```
+        
 </details>
