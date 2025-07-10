@@ -4,7 +4,7 @@ A single-page front-end email client built with JavaScript.
 
 ## 2025-07-07
 <details>
-<summary>Read project information to understand overview of the project</summary>
+<summary>1. Read project information to understand overview of the project</summary>
 
 - Makes API calls to send and receive emails
 - Register new account
@@ -23,7 +23,7 @@ A single-page front-end email client built with JavaScript.
 </details>
 
 <details>
-<summary>Noted some keywords which need to be searched to more understand</summary>
+<summary>2. Noted some keywords which need to be searched to more understand</summary>
 
 - `a front-end for an email client`
 - `they won’t actually be sent to real email servers`
@@ -33,10 +33,10 @@ A single-page front-end email client built with JavaScript.
 
 ## 2025-07-08
 <details>
-<summary>📁Listed down main functions, DB</summary>
+<summary>1. Listed down main functions, DB</summary>
 
 <details>
-<summary>📂Functions were built by CS50</summary>
+<summary>1.1. Functions were built by CS50</summary>
 
 - Tables of database
     - `User`: stores users registered
@@ -50,7 +50,7 @@ _*To additionally practice, I will develop myself the functions_
 </details>
 
 <details>
-<summary>📂Functions that learners must complete</summary>
+<summary>1.2. Functions that learners must complete</summary>
 
 Single-page front-end email client built with JavaScript
 
