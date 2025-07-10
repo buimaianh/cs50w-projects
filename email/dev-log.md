@@ -85,38 +85,43 @@ A single-page front-end email client built with JavaScript.
     - Tables of database
         - `User`
 
-            Where stores users registered
+            ```
+                Where stores users registered
 
-            Inherit from `AbstractUser` model provided by Django, not add or change any fields.
+                Inherit from `AbstractUser` model provided by Django, not add or change any fields.
+            ```
 
         - `Email`
 
-            Where stores details of all emails composed by users
+            ```
+                Where stores details of all emails composed by users
 
-            - `id` (auto created by Django)
-            - `user` (to authorize inputs from a user)
-                - ForeignKey
-                - on_delete=models.CASCADE
-                - related_name="emails"
-            - `sender`
-                - ForeignKey
-                - on_delete=models.CASCADE
-                - related_name="emails_sent"
-            - `recipients`
-                - ManyToManyField
-                - on_delete=models.CASCADE
-                - related_name="emails_recieved"
-            - `subject`
-                - CharField(max_length=255)
-            - `body`
-                - TextField
-                - blank=True
-            - `timestamp`
-                - DateTimeField(auto_now_add=True)
-            - `read`
-                - BooleanField(default=False)
-            - `archived`
-                - BooleanField(default=False)
+                - `id` (auto created by Django)
+                - `user` (to authorize inputs from a user)
+                    - ForeignKey
+                    - on_delete=models.CASCADE
+                    - related_name="emails"
+                - `sender`
+                    - ForeignKey
+                    - on_delete=models.CASCADE
+                    - related_name="emails_sent"
+                - `recipients`
+                    - ManyToManyField
+                    - on_delete=models.CASCADE
+                    - related_name="emails_recieved"
+                - `subject`
+                    - CharField(max_length=255)
+                - `body`
+                    - TextField
+                    - blank=True
+                - `timestamp`
+                    - DateTimeField(auto_now_add=True)
+                - `read`
+                    - BooleanField(default=False)
+                - `archived`
+                    - BooleanField(default=False)
+            ```
+            
     - Register a new account
         - UI
             - Heading: `Register a new account`
@@ -215,6 +220,11 @@ A single-page front-end email client built with JavaScript.
                     - Button: `Reply`
         - Logic
             - Send Mail
+                - Button["Send"].onsubmit = () => {fetch(url, {method: 'POST', body: JSON.stringify(data)})}
+                    - url = `emails/`
+                    - data = {recipients: ['a@gmail.com', 'a@gmail.com', 'a@gmail.com'],
+                            subject: `
+                    }
             - Load mailbox
             - View details of email
             - Mark an email as read
