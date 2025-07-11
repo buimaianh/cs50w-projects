@@ -106,7 +106,7 @@ Single-page front-end email client built with JavaScript
 
 ## 2025-07-09
 <details>
-<summary>1. Defined details of functions, models</summary>
+<summary>1. Defined details of functions, models (to be continued)</summary>
 
 <details>
 <summary>1.1 Tables of database</summary>
@@ -419,7 +419,8 @@ Where stores details of all emails composed by users
         loadMailbox()
     ```
 - Result
-    - JSON
+    - Return a data with `JSON` format
+
         Get a message "Sent the email successfully.", "Error sending the email.", "Recipients not existed", "Please fill in all fields.",...
 </details>
 
@@ -458,15 +459,17 @@ Where stores details of all emails composed by users
     No spaces, underscores, or hyphens are used.
 
     ```
-            Naming	            Example	        Usecases
-            camelCase	        userName	    variable, function
-            PascalCase	        UserProfile	    Class, Component, Constructor
-            snake_case	        user_name	    Python, file, environment variable
-            kebab-case	        user-profile	URL, CSS class, file name
-            UPPER_SNAKE_CASE	MAX_VALUE	    Constants
+        Naming	            Example	        Usecases
+        camelCase	        userName	    variable, function
+        PascalCase	        UserProfile	    Class, Component, Constructor
+        snake_case	        user_name	    Python, file, environment variable
+        kebab-case	        user-profile	URL, CSS class, file name
+        UPPER_SNAKE_CASE	MAX_VALUE	    Constants
     ```
 
 - For `form`, use `onsubmit` event. For `button`, use `onclick` event.
+
+- Always validate input data before processing logic.
 
 </details>
 
