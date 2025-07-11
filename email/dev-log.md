@@ -466,6 +466,7 @@ Where stores details of all emails composed by users
     ```
 
 - For `form`, use `onsubmit` event. For `button`, use `onclick` event.
+
 </details>
 
 ## Notes
