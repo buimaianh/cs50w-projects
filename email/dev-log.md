@@ -66,7 +66,7 @@ Single-page front-end email client built with JavaScript
 </details>
 
 <details>
-<summary>2. Q&A</summary>
+<summary>2. Learning Notes</summary>
 
 - `a front-end for an email client`
 
@@ -306,28 +306,12 @@ Where stores details of all emails composed by users
 
 </details>
 
-<details>
-<summary>b. Logic</summary>
-
-- Send Mail
-    - Button["Send"].onsubmit = () => {fetch(url, {method: 'POST', body: JSON.stringify(data)})}
-        - url = `emails/`
-        - data = {recipients: ['a@gmail.com', 'a@gmail.com', 'a@gmail.com'],
-                subject: `
-        }
-- Load mailbox
-- View details of email
-- Mark an email as read
-- Archive an email
-- Reply the email
-</details>
-
 </details>
 
 </details>
 
 <details>
-<summary>2. Q&A</summary>
+<summary>2. Learning Notes</summary>
 
 - `How to choose correct Field types for a field when use Model of Django`
 
@@ -338,7 +322,7 @@ Where stores details of all emails composed by users
     - Read their usages
     - Pick up correct field type
 
-- `How Django authenticates username and password`
+- `How doese Django authenticate username and password`
 
     - Search if username exists in `User` table
     - If existed, get hashed password corresponding to the username
@@ -349,13 +333,140 @@ Where stores details of all emails composed by users
         - If no match, return `None`
     - If not existed, return `None`
 
-- `Why need to call "log_in(request, user)" after authentication?`
+- `Why do we need to call "log_in(request, user)" after authentication?`
 
     - Authentication only verifies the credentials
     - Call `log_in(request, user)` starts a session and logs the user in
     - If skip the call, the user is not remembered as logged in, so request.user will AnonymousUser. They will still appear as logged out even if credentials are valid
+
 </details>
 
+## 2025-07-10
+
+<details>
+<summary>1. Defined details of functions, models (continue)</summary>
+
+<details>
+<summary>b. Logic</summary>
+
+<details>
+<summary>b1. Send email</summary>
+
+<details>
+<summary>b1.1. Frontend</summary>
+
+- Input
+    - Button: `Send`
+    - Event: `onclick`
+    - URL: `emails/`
+    - Method: `POST`
+    - Email data:
+        - recipients: `<input type="text" name="recipients">`
+        - subject: `<input type="text" name="subject">`
+        - body: `<textarea name="body"></textarea>`
+
+        _*Note_
+        - `recipients` is a comma-separated string of email addresses. 
+            - It should be converted from `str` to `list` before it is sent to server
+            - Maybe user enters wrong format like redundant comma/space. Example: `"'a@gmail.com',   ,'b@gmail.com',,,, 'c@gmail.com','d@gmail.com`. 
+        - For other fields, maybe user enters wrong format like redundant sapce
+- Action
+
+    ```    
+        function getInputUser () {
+            const recipientsInput = document.querySelector("#recipients").value;
+            const subjectInput = document.querySelector("#subject").value.trim();
+            const bodyInput = document.querySelector("#body").value.trim();
+
+            if (!recipientsInput || !subjectInput || !bodyInput) {
+                alert("Please fill in all fields.");
+                return;
+            }
+            
+            const recipientsList = recipientsInput.split(",")
+            .map(email => email.trim())
+            .filter(email => email);
+
+            const emailPayLoad = {
+                recipients: recipientsList,
+                subject: subjectInput,
+                body: bodyInput
+            };
+
+            return emailPayLoad;
+        }
+
+        function fetchSentEmail(emailPayLoad) {
+            fetch("emails/", {method: "POST", body: JSON.stringify(emailPayLoad)})
+            .then(response => response.json())
+            .then(result => {console.log("Email sent result:", result);})
+            .catch(error => {console.log("Error sending email:", error);});
+            }
+
+        document.addEventListener.("DOMContentLoaded", () => {
+            const button = document.querySelector("#send");
+            button.onclick = () => {
+                const emailPayLoad = getInputUser();
+                if (emailPayLoad) {
+                    fetchSentEmail("emails/", "POST", emailPayLoad)
+                }
+            };
+        });
+
+        loadMailbox()
+    ```
+- Result
+    - JSON
+        Get a message "Sent the email successfully.", "Error sending the email.", "Recipients not existed", "Please fill in all fields.",...
+</details>
+
+<details>
+<summary>b1.2. Backend</summary>
+</details>
+
+</details>
+
+</details>
+
+</details>
+
+<details>
+<summary>2. Learning notes</summary>
+
+- `Why do we need "JSON.stringify()?`
+
+    Because JavaScript objects need to be converted into JSON strings before being sent over the network. The string is then encoded into binary (0s and 1s), which the CPU converts into electrical signals. These signals travel through cables to the target server, where they're decoded back into binary, converted into a JSON string, and then parsed into a Python object on the backend. The backend processes this object and sends a response back to the frontend for display.
+
+- `Why do we need programming languages and compilers/interpreters?`
+
+    - A programming language allows humans to communicate with computers more easily, as it uses syntax and structure similar to natural language.
+    - However, computers can only understand binary (0s and 1s), so a compiler or interpreter is needed to translate the code into machine-understandable instructions.
+
+- `Why do we use "!value" to validate user input?`
+
+  - Because it covers all falsy values in JavaScript, including: `false`, `0`, `""`, `null`, `undefined`, and `NaN`.
+  - It’s more concise and less error-prone than checking each case manually.
+
+- We use `map()` when we want to transform or modify each item in an array. It creates a new array.
+
+- We use `filter()` to select elements that meet a certain condition. It creates a new array.
+
+- `How to name a variable with "camelCase" in Javascript`
+
+    The first word is written in lowercase, and the first letter of each subsequent word is capitalized.
+    No spaces, underscores, or hyphens are used.
+
+    ```
+            Naming	            Example	        Usecases
+            camelCase	        userName	    variable, function
+            PascalCase	        UserProfile	    Class, Component, Constructor
+            snake_case	        user_name	    Python, file, environment variable
+            kebab-case	        user-profile	URL, CSS class, file name
+            UPPER_SNAKE_CASE	MAX_VALUE	    Constants
+    ```
+
+- For `form`, use `onsubmit` event. For `button`, use `onclick` event.
+</details>
 
 ## Notes
 
