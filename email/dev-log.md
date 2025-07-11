@@ -239,7 +239,7 @@ Where stores details of all emails composed by users
 </details>
 
 <details>
-<summary>1.5. Inbox page</summary>
+<summary>1.5. Inbox page (to be continued)</summary>
 
 <details>
 <summary>a. UI</summary>
@@ -347,6 +347,9 @@ Where stores details of all emails composed by users
 <summary>1. Defined details of functions, models (continue)</summary>
 
 <details>
+<summary>1.5. Inbox page (continue)</summary>
+
+<details>
 <summary>b. Logic</summary>
 
 <details>
@@ -420,8 +423,6 @@ Where stores details of all emails composed by users
         Get a message "Sent the email successfully.", "Error sending the email.", "Recipients not existed", "Please fill in all fields.",...
 </details>
 
-<details>
-<summary>b1.2. Backend</summary>
 </details>
 
 </details>
