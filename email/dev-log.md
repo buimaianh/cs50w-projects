@@ -495,13 +495,13 @@ Where stores details of all emails composed by users
 <details>
 <summary>1.5. Inbox page (continue)</summary>
 
-<detials>
+<details>
 <summary>b. Logic</summary>
 
-<detials>
+<details>
 <summary>b1. Send email</summary>
 
-<detials>
+<details>
 <summary>b1.2. Backend</summary>
 
 - Problem to solve
@@ -570,21 +570,24 @@ Where stores details of all emails composed by users
 <summary>2. Learning notes</summary>
 
 - `!response.ok`
+
     We should check `!response.ok` before calling `response.json()` to clearly distinguish HTTP errors and successful reponses
 
 - `Data format returned by backend (e.g.JSON, HTML, ...)`
+
     We should consider that data format returned by backend (e.g.JSON, HTML, ...) to ensure it is processed correctly on frontend
 
 - `ManyToManyField` on Django Model
+
     Assume that you create an `Email` model which includes a `recipients` field. This field is defined as a `ManyToManyField` to `User` model. In the database, the `Email` table doesn't include `recipient` column. Instead, Django creates additional intermidiate table with columns like `id||email_id||user_id` to store `recipients` relationships.
 
     This is similar how we use raw SQL to create 3 tables: `user`, `email`, `email_recipients`.
 
 - `User.objects.get(username=email)`
+
     We should use `.objects.get()` in `try/except` to handle error
 
     If user `if not User.objects.get(username=email)`, before the `if` statement is executed, `User.objects.get(username=email)` raises error if have error
-
 
 </details>
 
