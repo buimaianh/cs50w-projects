@@ -358,6 +358,10 @@ Where stores details of all emails composed by users
 <details>
 <summary>b1.1. Frontend</summary>
 
+- Prolem to solve
+    - Send a request to backend
+    - Get corresponding reponse from backend
+
 - Input
     - Button: `Send`
     - Event: `onclick`
@@ -373,7 +377,19 @@ Where stores details of all emails composed by users
             - It should be converted from `str` to `list` before it is sent to server
             - Maybe user enters wrong format like redundant comma/space. Example: `"'a@gmail.com',   ,'b@gmail.com',,,, 'c@gmail.com','d@gmail.com`. 
         - For other fields, maybe user enters wrong format like redundant sapce
+
 - Action
+    - Load DOM
+    - Get button `Send`
+    - Click the got button using event `onclick`
+    - Get user input
+    - Convert Javascript user input object to string
+    - Send a request to API. The request is url `emails/` by method `POST` with data `converted string`
+    - Get corresponding response
+    - Check if reponse status is error
+    - If not error, convert the response with string format to Javascript object
+    - Process the object
+    - Display processing results to UI
 
     ```    
         function getInputUser () {
@@ -401,8 +417,8 @@ Where stores details of all emails composed by users
 
         function fetchSentEmail(emailPayLoad) {
             fetch("emails/", {method: "POST", body: JSON.stringify(emailPayLoad)})
-            .then(response => response.json())
-            .then(result => {console.log("Email sent result:", result);})
+            .then(response => {if (!response.ok) {throw new Error(`HTTP error, status:${response.status}`)}response.json()})
+            .then(result => {console.log("Email sent successfully:", result);})
             .catch(error => {console.log("Error sending email:", error);});
             }
 
@@ -411,17 +427,15 @@ Where stores details of all emails composed by users
             button.onclick = () => {
                 const emailPayLoad = getInputUser();
                 if (emailPayLoad) {
-                    fetchSentEmail("emails/", "POST", emailPayLoad)
+                    fetchSentEmail(emailPayLoad)
                 }
             };
         });
-
-        loadMailbox()
     ```
-- Result
-    - Return a data with `JSON` format
 
-        Get a message "Sent the email successfully.", "Error sending the email.", "Recipients not existed", "Please fill in all fields.",...
+- Output
+
+    Get a message "Sent the email successfully.", "Error sending the email.", "Recipients not existed", "Please fill in all fields.",...
 </details>
 
 </details>
@@ -470,6 +484,107 @@ Where stores details of all emails composed by users
 - For `form`, use `onsubmit` event. For `button`, use `onclick` event.
 
 - Always validate input data before processing logic.
+
+</details>
+
+## 2025-07-12
+
+<details>
+<summary>1. Defined details of functions, models (continue)</summary>
+
+<details>
+<summary>1.5. Inbox page (continue)</summary>
+
+<detials>
+<summary>b. Logic</summary>
+
+<detials>
+<summary>b1. Send email</summary>
+
+<detials>
+<summary>b1.2. Backend</summary>
+
+- Problem to solve
+    - Create a new email to `Email` table
+    - Send back to frontend a response about result of sending email
+
+- Input
+    - request.user = "abc@gmail.com"
+    - request.url = "emails/"
+    - request.method = "POST"
+    - request.body = emailData = "{recipients: ['a', 'b', 'c'], subject: 'Hello, body: 'Hello!'}"
+
+- Action
+    - Find `path('emails/', views.new_email, name=new_email)`
+    - Process view `new_email(request)`
+        - Verify that request.user logs in
+            - If not yet, return JsonResponse({'message': 'You not yet log in.', status = 401})
+            - If logged in, process request
+        - Process request
+            - If request.method != 'POST'
+                return JsonResponse({'message': 'POST request required.', status = 422})
+            - If request.method == 'POST'
+                - Get rawEmailPayLoad = request.body
+                - Convert rawEmailPayLoad from string to JSON object: emailPayLoad = rawEmailPayLoad.json()
+                - Get detailed email contents which are user input
+                    - recipients = emailPayLoad['recipients']
+                    - subject = emailPayLoad['subject']
+                    - body = emailPayLoad['body']
+                - Verify user input
+                    - If not recipients or not subject or not body, return JsonResponse({'message': 'Don't leave empty fields.'}, status=400)
+                    - If isinstance(recipients, str)
+                        - recipientsList = recipients.split(',')
+                        - recipientsList = [ email.strip() for email in recipientsList if email.strip()]
+                    - If not isinstance(recipients, str)
+                        - recipientsList = [email.strip() for email in recipientsList if email.strip()]
+                        - recipientObjects = []
+                    - Get recipientObjects = []
+                        - for recipientEmail in recipientsList:
+                            try
+                                recipientObject = User.objects.get(username=recipientEmail)
+                                recipientObjects.append(recipientObject)
+                            exept User.DoesNotExist:
+                                JsonResponse({'message': f"'User with email {recipientEmail} do not exist."})
+                    - subject.strip()
+                    - body.strip()
+                - Create a instance of class `Email` without recipents because of `ManyToMany`
+                    - newEmail = Email(user = request.user, sender = request.user, subject = subject, body = body)
+                    - newEmail.save()
+                - Add `recipientsList` to newEmail.recipients
+                - Return JsonResponse({'message': 'Email sent successfully.', status = 201})
+
+- Output
+    `JsonResponse({'message': '<message content>', status = <HTTP status>})`
+    
+</details>
+
+</details>
+
+</details>
+
+</details>
+
+</details>
+
+<details>
+<summary>2. Learning notes</summary>
+
+- `!response.ok`
+    We should check `!response.ok` before calling `response.json()` to clearly distinguish HTTP errors and successful reponses
+
+- `Data format returned by backend (e.g.JSON, HTML, ...)`
+    We should consider that data format returned by backend (e.g.JSON, HTML, ...) to ensure it is processed correctly on frontend
+
+- `ManyToManyField` on Django Model
+    Assume that you create an `Email` model which includes a `recipients` field. This field is defined as a `ManyToManyField` to `User` model. In the database, the `Email` table doesn't include `recipient` column. Instead, Django creates additional intermidiate table with columns like `id||email_id||user_id` to store `recipients` relationships.
+
+    This is similar how we use raw SQL to create 3 tables: `user`, `email`, `email_recipients`.
+
+- `User.objects.get(username=email)`
+    We should use `.objects.get()` in `try/except` to handle error
+
+    If user `if not User.objects.get(username=email)`, before the `if` statement is executed, `User.objects.get(username=email)` raises error if have error
+
 
 </details>
 
