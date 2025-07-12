@@ -550,7 +550,7 @@ Where stores details of all emails composed by users
                 - Create a instance of class `Email` without recipents because of `ManyToMany`
                     - newEmail = Email(user = request.user, sender = request.user, subject = subject, body = body)
                     - newEmail.save()
-                - Add `recipientsList` to newEmail.recipients
+                - Add `recipientObjects` to newEmail.recipients
                 - Return JsonResponse({'message': 'Email sent successfully.', status = 201})
 
 - Output
