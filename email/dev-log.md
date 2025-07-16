@@ -843,6 +843,11 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 <summary>b3. View details of email</summary>
 
 <details>
+<summary>Goal</summary>
+
+</details>
+
+<details>
 <summary>b3.1. Frontend</summary>
 
 - Problem to solve
@@ -871,6 +876,11 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 
 <details>
 <summary>b4. Mark an email as read</summary>
+
+<details>
+<summary>Goal</summary>
+
+</details>
 
 <details>
 <summary>b4.1. Frontend</summary>
@@ -903,6 +913,11 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 <summary>b5. Archive an email</summary>
 
 <details>
+<summary>Goal</summary>
+
+</details>
+
+<details>
 <summary>b5.1. Frontend</summary>
 
 - Problem to solve
@@ -931,6 +946,11 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 
 <details>
 <summary>b6. Reply the email</summary>
+
+<details>
+<summary>Goal</summary>
+
+</details>
 
 <details>
 <summary>b6.1. Frontend</summary>
