@@ -382,14 +382,14 @@ When user submits the email composition form, add Javascript to actually sent th
         - For other fields, maybe user enters wrong format like redundant sapce
 
 - Action
-    - Load DOM
-    - Get button `Send`
-    - Add event listener `onclick` to the button
-    - Get user input
+    - Wait for the DOM is loaded fully
+    - Select button `Send`
+    - Add an `onclick` event listener to the button
+    - Get values of user input
     - Convert Javascript user input object to string
     - Send a request `POST` with body `converted string` to API with url ``emails/`
-    - Before backend gets the request, if have any problem like internet is dropped, url not found,..., need to catch the error and handle the error
-    - If backend gets request successfully, backend processed the request and send back an approriate response
+    - Before backend gets the request, if have any problem like internet is dropped, url not found,..., need to catch and handle it
+    - If backend gets request successfully, backend processes the request and send back an approriate response to frontend
     - If the reponse is not ok, throw out an error message
     - If the reponse is ok, convert JSON string to Javascript object
     - Get response body
@@ -522,7 +522,7 @@ When user submits the email composition form, add Javascript to actually sent th
     - request.method = "POST"
     - request.body = emailData = "{recipients: ['a', 'b', 'c'], subject: 'Hello, body: 'Hello!'}"
 
-- Action
+- Action flow
     - Find `path('emails/', views.new_email, name=new_email)`
     - Process view `new_email(request)`
         - Verify that request.user logs in
@@ -624,7 +624,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 <summary>b1.1. Frontend</summary>
 
 - Problem to solve
-    - Call a API request (url: `emails/<mailbox>`, method: `GET`) to backend
+    - Send an API request (url: `emails/<mailbox>`, method: `GET`) to backend
     - Display a list of emails corresponding to that mailbox
 
 - Input
@@ -634,24 +634,25 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
     - Method: `GET`
 
 - Action
-    - Load DOM
-    - Get a list of mailbox buttons `inbox`, `sent`, `archive`
-    - Iterate the list
-    - Get `value` attribute of the button using `button.value`
-    - Add event listener `onclick` to the button
-    - Call a API request (url: `emails/<mailbox>`, method: `GET`) to backend
-    - If sending the request has a trouble, catch the error and handle it
-    - If backend gets the request successfully, backend processes the request and sends back a response
-    - Get response from backend
-    - If response is error, throw out an error message
-    - If response is not error, convert JSON string sent back by backend to Javascript object
-    - Get response body including a list of dictionaries which stores contents of all emails
-    - Iterate the list
+    - Wait for the DOM is loaded fully
+    - Select all mailbox buttons `inbox`, `sent`, `archive`
+    - Iterate through the list of buttons
+    - Get the value of the button using `button.value`
+    - Add an `onclick` event listener to each button
+    - Send a `GET` request to backend with url `emails/<mailbox>`
+    - If there is a network error, catch and handle it
+    - If backend gets the request successfully, backend processes it and sends back a response to fontend
+    - Get the response from backend
+    - If response is error, display an error message
+    - If response is not error, parse the JSON response returned by backend into a Javascript object
+    - Get response body contains a list of email objects (each represented as a dictionary)
+    - Iterate through the list
     - Create a `<div></div>` to store each email
-    - Get `sender`, `subject`, `timestamp`, `read`
+    - Extract `sender`, `subject`, `timestamp`, `read` status
     - Append `sender`, `subject`, `timestamp` to the `<div></div>`
-    - If `read` is False, set background of the email box as `white`
-    - If `read` is True, set background of the email box as `gray`
+    - If `read` is False, set the background color of the email element to `white`
+    - If `read` is True, set the background color of the email element to `gray`
+
 
     ```
         function loadMailbox(mailbox) {
@@ -677,7 +678,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
                                 const read = email.read;
 
                                 const emailBox = document.createElement("div");
-                                emailBox.className = "email-item
+                                emailBox.className = "email-item"
 
                                 emailBox.innerHTML = sender + subject + timestamp;
 
