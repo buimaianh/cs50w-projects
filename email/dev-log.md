@@ -364,7 +364,11 @@ Where stores details of all emails composed by users
 <details>
 <summary>b1. Send email</summary>
 
+<details>
+<summary>Goal</summary>
+
 When user submits the email composition form, add Javascript to actually sent the email
+</details>
 
 <details>
 <summary>b1.1. Frontend</summary>
@@ -623,11 +627,15 @@ When user submits the email composition form, add Javascript to actually sent th
 <details>
 <summary>b2. Load mailbox</summary>
 
+<details>
+<summary>Goal</summary>
+
 Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `archive`) which user clicks on
 
 - Each email is displayed in a box, means a `<div></div>`
 - Emails are ordered from the latest one to the oldest one
 - Email is read -> display `gray background`, email is unread -> display `white background`
+</details>
 
 <details>
 <summary>b2.1. Frontend</summary>
@@ -755,11 +763,14 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 <details>
 <summary>b2. Load mailbox</summary>
 
+<details>
+<summary>Goal</summary>
 Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `archive`) which user clicks on
 
 - Each email is displayed in a box, means a `<div></div>`
 - Emails are ordered from the latest one to the oldest one
 - Email is read -> display `gray background`, email is unread -> display `white background`
+</details>
 
 <details>
 <summary>b2.2. Backend</summary>
