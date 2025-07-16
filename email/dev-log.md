@@ -109,7 +109,7 @@ Single-page front-end email client built with JavaScript
 <summary>1. Defined details of functions, models (to be continued)</summary>
 
 <details>
-<summary>1.1 Tables of database</summary>
+<summary>1.1 Tables of database (done)</summary>
 
 <details>
 <summary>a. `User` table</summary>
@@ -162,7 +162,7 @@ Where stores details of all emails composed by users
 </details>
 
 <details>
-<summary>1.2. Register a new account</summary>
+<summary>1.2. Register a new account (done)</summary>
 
 <details>
 <summary>a. UI</summary>
@@ -196,7 +196,7 @@ Where stores details of all emails composed by users
 </details>
 
 <details>
-<summary>1.3. Log in</summary>
+<summary>1.3. Log in (done)</summary>
 
 <details>
 <summary>a. UI</summary>
@@ -210,7 +210,7 @@ Where stores details of all emails composed by users
 </details>
 
 <details>
-<summary>b. Logic</summary>
+<summary>b. Logic (done)</summary>
 
 - url `login/`
 - method == POST
@@ -228,7 +228,7 @@ Where stores details of all emails composed by users
 </details>
 
 <details>
-<summary>1.4. Log out</summary>
+<summary>1.4. Log out (done)</summary>
 
 <details>
 <summary>a. UI</summary>
@@ -520,7 +520,7 @@ When user submits the email composition form, add Javascript to actually sent th
 <summary>b. Logic</summary>
 
 <details>
-<summary>b1. Send email</summary>
+<summary>b1. Send email (done)</summary>
 
 <details>
 <summary>Goal</summary>
@@ -767,7 +767,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 <summary>b. Logic</summary>
 
 <details>
-<summary>b2. Load mailbox</summary>
+<summary>b2. Load mailbox (done)</summary>
 
 <details>
 <summary>Goal</summary>
