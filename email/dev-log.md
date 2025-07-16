@@ -850,6 +850,93 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 
 </details>
 
+<details>
+<summary>b4. Mark an email as read</summary>
+
+<details>
+<summary>b4.1. Frontend</summary>
+
+- Problem to solve
+
+- Input
+
+- Action flow
+
+- Output
+
+</details>
+
+<details>
+<summary>b4.2. Backend</summary>
+
+- Problem to solve
+
+- Input
+
+- Action flow
+
+- Output
+
+</details>
+
+<details>
+<summary>b5. Archive an email</summary>
+
+<details>
+<summary>b5.1. Frontend</summary>
+
+- Problem to solve
+
+- Input
+
+- Action flow
+
+- Output
+
+</details>
+
+<details>
+<summary>b5.2. Backend</summary>
+
+- Problem to solve
+
+- Input
+
+- Action flow
+
+- Output
+
+</details>
+
+<details>
+<summary>b6. Reply the email</summary>
+
+<details>
+<summary>b6.1. Frontend</summary>
+
+- Problem to solve
+
+- Input
+
+- Action flow
+
+- Output
+
+</details>
+
+<details>
+<summary>b6.2. Backend</summary>
+
+- Problem to solve
+
+- Input
+
+- Action flow
+
+- Output
+
+</details>
+
 </details>
 
 
