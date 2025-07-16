@@ -523,6 +523,12 @@ When user submits the email composition form, add Javascript to actually sent th
 <summary>b1. Send email</summary>
 
 <details>
+<summary>Goal</summary>
+
+When user submits the email composition form, add Javascript to actually sent the email
+</details>
+
+<details>
 <summary>b1.2. Backend</summary>
 
 - Problem to solve
@@ -765,6 +771,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 
 <details>
 <summary>Goal</summary>
+
 Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `archive`) which user clicks on
 
 - Each email is displayed in a box, means a `<div></div>`
