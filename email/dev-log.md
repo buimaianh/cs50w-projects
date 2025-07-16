@@ -849,6 +849,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 - Output
 
 </details>
+</details>
 
 <details>
 <summary>b4. Mark an email as read</summary>
@@ -877,6 +878,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 
 - Output
 
+</details>
 </details>
 
 <details>
@@ -907,6 +909,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 - Output
 
 </details>
+</details>
 
 <details>
 <summary>b6. Reply the email</summary>
@@ -935,6 +938,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 
 - Output
 
+</details>
 </details>
 
 </details>
