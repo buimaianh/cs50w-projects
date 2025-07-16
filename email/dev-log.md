@@ -374,9 +374,8 @@ When user submits the email composition form, add Javascript to actually sent th
 <summary>b1.1. Frontend</summary>
 
 - Prolem to solve
-    - Call a API request (url: `emails`, method: `POST`, email contents from user input) to backend
+    - Make an API request (url: `emails`, method: `POST`, email contents from user input) to backend
     - Get a corresponding reponse from backend about sending email result
-    - Load `sent` mailbox
 
 - Input
     - Button: `Send`
@@ -403,11 +402,10 @@ When user submits the email composition form, add Javascript to actually sent th
     - Send a request `POST` with body `converted string` to API with url ``emails/`
     - Before backend gets the request, if have any problem like internet is dropped, url not found,..., need to catch and handle it
     - If backend gets request successfully, backend processes the request and send back an approriate response to frontend
-    - If the reponse is not ok, throw out an error message
+    - If the reponse is not ok, catch an error message and handle it
     - If the reponse is ok, convert JSON string to Javascript object
-    - Get response body
+    - Get message = 
     - Display the response body to UI
-    - Load `sent` mailbox
 
     ```    
         function getInputUser () {
@@ -450,7 +448,6 @@ When user submits the email composition form, add Javascript to actually sent th
             };
         });
 
-        load_mailbox(`sent`)
     ```
 
 - Output
@@ -792,25 +789,25 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
    - mailbox
 
 - Action flow
-    - Validate request.user.is_authenticated
-        - If it is False, redirect("login_view")
+    - Validate `request.user.is_authenticated`
+        - If it is `False`, redirect("login_view")
         - Otherwise, process the next action
     - Validate request.method
-        - If it is not `GET`, return JsonResponse({"error": "GET request required."}, status=405)
+        - If it is not `GET`, return `JsonResponse({"error": "GET request required."}, status=405)`
         - Otherwise, process the next action
     - Retrieve a list of emails
         - mailbox = mailbox.lower()
         - If mailbox = `inbox`, emailsList = Email.objects.filter(recipients=request.user).order_by("-timestamp")
         - If mailbox = `sent`, emailsList = Email.objects.filter(sender=request.user).order_by("-timestamp")
         - If mailbox = `archived`, emailsList = Email.objects.filter(recipients=request.user, archived=True).order_by("-timestamp")
-        - Otherwise, return JsonResponse({"error": "Invalid mailbox."}, status=404)
+        - Otherwise, return `JsonResponse({"error": "Invalid mailbox."}, status=404)`
     - Convert each email objects of the `emailsList` to dictionary to get a list of email dictionaries
         - Tạo method `serialize()` trong class `Email` -> make migration -> migrate
         - emailData = [email.serialize() for email in emailsList]
-    - Return JsonResponse(emailData, status=200, safe=False)
+    - Return `JsonResponse(emailData, status=200, safe=False)`
 
 - Output
-    - A JSON object containing a list of emails corresponding to the selected mailbox with timestamp in desceding order or a error message
+    - A HTTP response formating JSON, which contains a list of emails corresponding to the selected mailbox with timestamp in desceding order or a error message
 
     ```
         [
@@ -845,31 +842,119 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 <details>
 <summary>Goal</summary>
 
+When a user clicks on an email, the user should be taken to a view where they see the content of that email.
+
+- `sender`
+- `recipients`
+- `Subject`
+- `Timestamp`
+- `Body`
 </details>
 
 <details>
 <summary>b3.1. Frontend</summary>
 
 - Problem to solve
+    - Make a `GET` request to `/emails/<email_id>`
+    - Dislay the content of the email
 
 - Input
+    - Selected email box with class name `email-item` which contain `data-value="email_id"`
+    - Event: `onclick`
+    - URL: `/emails/<email_id>`
+    - Method" `GET`
 
 - Action flow
+    - Wait for the DOM is loaded fully
+    - Select a list of elements with class name `email-item`
+    - Iterate through the list
+    - Add an `onclick` event listener to the element
+    - Get `data-value=<email_id>` of the element
+    - Make an `GET` request to `emails/<email_id>`
+    - If there is network error, catch and handle it
+    - Otherwise, get a response returned by backend
+    - If response is error, display an error message
+    - Otherwise, parse the JSON response returned by backend into a Javascript object
+    - Get response result and handle it
+    - Create a new `<div></div>` to store email contents with class name `email-detail-view`
+    - Get `sender`, `recipients`, `subject`, `timestamp`, `body`
+    - Add the contents to the `email-detail-view`
+    - Add the `email-detail-view` to the DOM
 
+    ```
+        function loadDetailedEmail() {
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelectorAll(".email-item").forEach(emailItem => {
+                    emailItem.onclick = () => {
+                        const email_id = emailItem.dataset.value;
+                        fetch(`emails/${email_id}`)
+                        .then(response => {
+                            if (!response.ok) {throw new Error(`HTTP error, status: ${response.status`});}
+                            return response.json()
+                        })
+                        .then(emailContents => {
+                            const emailDetailView = document.createElement("div");
+                            emailDetailView.className = "email-detail-view"
+                            const emailHTML = `
+                                <p>From: ${emailContents.sender}</p>
+                                <p>To: ${emailContents.recipients}</p>
+                                <p>Subject: ${emailContents.subject}</p>
+                                <p>${emailContents.timestamp}</p>
+                                <textarea>${emailContents.body}</textarea>`;
+
+                                emailDetailView.innerHTML = emailHTML;
+
+                                document.querySelector("#emails-view").innerHTML = ""
+                                document.querySelector("#emails-view").appendChild(emailDetailView);
+                        })
+                        .catch(error => console.log("Error:", error))
+                    }
+                })
+            })
+        }
+    ```
+    
 - Output
-
+    - UI dislays `sender`, `recipients`, `subject`, `timestamp`, `body` of a certain email
 </details>
 
 <details>
 <summary>b3.2. Backend</summary>
 
 - Problem to solve
+    - Filter an email by `email_id` and `request.user`
+    - Send back an reponse containing a dictionary to frontend
 
 - Input
+    - `email_id`
+    - method = `GET`
 
 - Action flow
+    - Validate `request.user.is_authenticated`
+        - If it is `False`, redirect("login_view")
+        - Otherwise, process the next action
+    - Validate request.method
+        - If it is not `GET`, return `JsonResponse({"error": "GET request required."}, status=405)`
+        - Otherwise, process the next action
+    - Filter an email by `email_id` and `request.user`
+    - Serialize the email
+    - Return `JsonResponse(email, safe=False, status=200)`
 
 - Output
+    - An HTTP response formatted JSON, which contains contents of a specific email
+
+    ```
+        {
+            "id": 100,
+            "sender": "foo@example.com",
+            "recipients": ["bar@example.com"],
+            "subject": "Hello!",
+            "body": "Hello, world!",
+            "timestamp": "Jan 2 2020, 12:00 AM",
+            "read": false,
+            "archived": false
+        }
+    ```
 
 </details>
 </details>
@@ -880,18 +965,40 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 <details>
 <summary>Goal</summary>
 
+Once an email has been clicked on, should mark the email as read. Send a `PUT` request to `/emails/<email_id>` to update whether an email is read or not.
 </details>
 
 <details>
 <summary>b4.1. Frontend</summary>
 
 - Problem to solve
+    - Send a `PUT` request to `/emails/<email_id>`
+    - Get a message about updating result
 
 - Input
+    - `email_id`
+    - Method: `PUT`
+    - URL: `/emails/<email_id>`
 
 - Action flow
+    - Wait for the DOM is loaded fully
+    - Select a list of elements with class name `email-item`
+    - Iterate through the list
+    - Add an `onclick` event listener to the element
+    - Get `data-value=<email_id>` of the element
+    - Make a `PUT` request to `/emails/<email_id>`
+    - If there is network error, catch and handle it
+    - Otherwise, get a response returned by backend
+    - If response is error, display an error message
+    - Otherwise, parse the JSON response returned by backend into a Javascript object
+    - Get response result and handle it
+    - Create a new `<div></div>` to store email contents with class name `message-view`
+    - Get message =  result.message
+    - Add the message to the `message-view`
+    - Add `message-view` to the DOM
 
 - Output
+    - UI displays a message about updating result
 
 </details>
 
