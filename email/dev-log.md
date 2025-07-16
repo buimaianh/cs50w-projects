@@ -355,12 +355,15 @@ Where stores details of all emails composed by users
 <details>
 <summary>b1. Send email</summary>
 
+When user submits the email composition form, add Javascript to actually sent the email
+
 <details>
 <summary>b1.1. Frontend</summary>
 
 - Prolem to solve
-    - Send a request to backend
-    - Get corresponding reponse from backend
+    - Call a API request (url: `emails`, method: `POST`, email contents from user input) to backend
+    - Get a corresponding reponse from backend about sending email result
+    - Load `sent` mailbox
 
 - Input
     - Button: `Send`
@@ -381,15 +384,17 @@ Where stores details of all emails composed by users
 - Action
     - Load DOM
     - Get button `Send`
-    - Click the got button using event `onclick`
+    - Add event listener `onclick` to the button
     - Get user input
     - Convert Javascript user input object to string
-    - Send a request to API. The request is url `emails/` by method `POST` with data `converted string`
-    - Get corresponding response
-    - Check if reponse status is error
-    - If not error, convert the response with string format to Javascript object
-    - Process the object
-    - Display processing results to UI
+    - Send a request `POST` with body `converted string` to API with url ``emails/`
+    - Before backend gets the request, if have any problem like internet is dropped, url not found,..., need to catch the error and handle the error
+    - If backend gets request successfully, backend processed the request and send back an approriate response
+    - If the reponse is not ok, throw out an error message
+    - If the reponse is ok, convert JSON string to Javascript object
+    - Get response body
+    - Display the response body to UI
+    - Load `sent` mailbox
 
     ```    
         function getInputUser () {
@@ -422,7 +427,7 @@ Where stores details of all emails composed by users
             .catch(error => {console.log("Error sending email:", error);});
             }
 
-        document.addEventListener.("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", () => {
             const button = document.querySelector("#send");
             button.onclick = () => {
                 const emailPayLoad = getInputUser();
@@ -431,11 +436,14 @@ Where stores details of all emails composed by users
                 }
             };
         });
+
+        load_mailbox(`sent`)
     ```
 
 - Output
 
-    Get a message "Sent the email successfully.", "Error sending the email.", "Recipients not existed", "Please fill in all fields.",...
+    - Get a message "Sent the email successfully.", "Error sending the email.", "Recipients not existed", "Please fill in all fields.",...
+    - A list of emails of `sent` mailbox
 </details>
 
 </details>
@@ -554,6 +562,7 @@ Where stores details of all emails composed by users
                 - Return JsonResponse({'message': 'Email sent successfully.', status = 201})
 
 - Output
+
     `JsonResponse({'message': '<message content>', status = <HTTP status>})`
     
 </details>
@@ -590,6 +599,139 @@ Where stores details of all emails composed by users
     If user `if not User.objects.get(username=email)`, before the `if` statement is executed, `User.objects.get(username=email)` raises error if have error
 
 </details>
+
+## 2025-07-14
+
+<details>
+<summary>1. Defined details of functions, models (continue)</summary>
+
+<details>
+<summary>1.5. Inbox page (continue)</summary>
+
+<details>
+<summary>b. Logic</summary>
+
+<details>
+<summary>b1. Load mailbox</summary>
+
+Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `archive`) which user clicks on
+
+- Each email is displayed in a box, means a `<div></div>`
+- Emails are ordered from the latest one to the oldest one
+- Email is read -> display `gray background`, email is unread -> display `white background`
+
+<details>
+<summary>b1.1. Frontend</summary>
+
+- Problem to solve
+    - Call a API request (url: `emails/<mailbox>`, method: `GET`) to backend
+    - Display a list of emails corresponding to that mailbox
+
+- Input
+    - Buttons: `inbox`, `sent`, `archive`
+    - Event: `onclick`
+    - URL: `emails/<mailbox>`
+    - Method: `GET`
+
+- Action
+    - Load DOM
+    - Get a list of mailbox buttons `inbox`, `sent`, `archive`
+    - Iterate the list
+    - Get `value` attribute of the button using `button.value`
+    - Add event listener `onclick` to the button
+    - Call a API request (url: `emails/<mailbox>`, method: `GET`) to backend
+    - If sending the request has a trouble, catch the error and handle it
+    - If backend gets the request successfully, backend processes the request and sends back a response
+    - Get response from backend
+    - If response is error, throw out an error message
+    - If response is not error, convert JSON string sent back by backend to Javascript object
+    - Get response body including a list of dictionaries which stores contents of all emails
+    - Iterate the list
+    - Create a `<div></div>` to store each email
+    - Get `sender`, `subject`, `timestamp`, `read`
+    - Append `sender`, `subject`, `timestamp` to the `<div></div>`
+    - If `read` is False, set background of the email box as `white`
+    - If `read` is True, set background of the email box as `gray`
+
+    ```
+        function loadMailbox(mailbox) {
+            document.addEventListener(" ", () => {
+                const mailboxButtons = document.querySelectorAll(".mailbox-btns");
+
+                mailboxButtons.forEach(mailboxButtons => {
+                    mailboxButtons.onclick = () => {
+                        const mailboxName = mailboxButtons.value;
+
+                        fetch(`emails/${mailboxName}`)
+                        .then(response => {
+                            if (!response.ok) {throw new Error(`HTTP error, status: ${response.status}`)}
+                            return response.json()
+                            })
+                        .then(emailList => {
+                            console.log("Load mailbox successfully.");
+
+                            emailList.forEach(email => {
+                                const sender = `<p>${email.sender}</p>`;
+                                const subject = `<p>${email.subject}</p>`;
+                                const timestamp = `<p>${email.timestamp}</p>`;
+                                const read = email.read;
+
+                                const emailBox = document.createElement("div");
+                                emailBox.className = "email-item
+
+                                emailBox.innerHTML = sender + subject + timestamp;
+
+                                if (read) {emailBox.style.background = "gray"} else {emailBox.style.background = "white"}
+
+                                emailsView = document.querySelector("#emails-view")
+                                emailsView.appendChild(emailBox)
+                            })
+                        })
+                        .catch(error => console.log("Error:", error))
+                    }
+                        
+                })
+            })
+        }
+    ```
+- Output
+    - UI displays a list of emails following to order by the latest one -> the oldest one. Read email box with `white` background, unread email box with `gray` background
+
+</details>
+
+</details>
+
+</details>
+
+</details>
+
+</details>
+
+<details>
+<summary>2. Learning notes</summary>
+
+- Before using any function, we should understand clearly 3 things to be able to use it procactively and correctly
+    - What `input` does the function require?
+    - What does the function do?
+    - What `output` does the function return?
+
+- `Promise`
+    - An object used to handle asynchronous operations.
+    It acts as a placeholder for a value that is not available yet, but will be known in the future — either successfully (resolved) or with an error (rejected).
+
+- `fetch()`
+    - Input: (url, options(method: `<string>`, header: `<string>`, body: `<dict>`))
+    - Make HTTP requests (GET, POST, etc.) in JavaScript. It allows you to communicate with APIs or servers asynchronously.
+    - Output: `promise<response>`
+
+- `then()`
+    - Input: a callback function `onFullfilled`. Register it to be called after the promise is resolved. Pass the resolved value of the `promise` into `onFullfilled`
+    - Define what to do next after a Promise resolves. It lets you handle the result of an async operation and chain actions.
+    - Output: new `promise`
+
+- `response.json()` returns a `promise<JSON object>`
+</details>
+
 
 ## Notes
 
