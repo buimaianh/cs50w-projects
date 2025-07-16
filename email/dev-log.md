@@ -148,6 +148,15 @@ Where stores details of all emails composed by users
     - BooleanField(default=False)
 - `archived`
     - BooleanField(default=False)
+- `serialize(self)`
+    - id = self.id
+    - sender = self.sender.email
+    - recipients = [recipient.email for recipient in self.recipients.all()]
+    - subject = self.subject
+    - body = self.body
+    - timestamp = self.timestamp.isoformat()
+    - read = self.read
+    - archived = self.archived
 </details>
 
 </details>
@@ -381,7 +390,7 @@ When user submits the email composition form, add Javascript to actually sent th
             - Maybe user enters wrong format like redundant comma/space. Example: `"'a@gmail.com',   ,'b@gmail.com',,,, 'c@gmail.com','d@gmail.com`. 
         - For other fields, maybe user enters wrong format like redundant sapce
 
-- Action
+- Action flow
     - Wait for the DOM is loaded fully
     - Select button `Send`
     - Add an `onclick` event listener to the button
@@ -526,11 +535,11 @@ When user submits the email composition form, add Javascript to actually sent th
     - Find `path('emails/', views.new_email, name=new_email)`
     - Process view `new_email(request)`
         - Verify that request.user logs in
-            - If not yet, return JsonResponse({'message': 'You not yet log in.', status = 401})
+            - If not yet, return JsonResponse({'error': 'You not yet log in.'}, status=401)
             - If logged in, process request
         - Process request
             - If request.method != 'POST'
-                return JsonResponse({'message': 'POST request required.', status = 422})
+                return JsonResponse({'error': 'POST request required.', status = 405})
             - If request.method == 'POST'
                 - Get rawEmailPayLoad = request.body
                 - Convert rawEmailPayLoad from string to JSON object: emailPayLoad = rawEmailPayLoad.json()
@@ -539,7 +548,7 @@ When user submits the email composition form, add Javascript to actually sent th
                     - subject = emailPayLoad['subject']
                     - body = emailPayLoad['body']
                 - Verify user input
-                    - If not recipients or not subject or not body, return JsonResponse({'message': 'Don't leave empty fields.'}, status=400)
+                    - If not recipients or not subject or not body, return JsonResponse({'error': 'Don't leave empty fields.'}, status=400)
                     - If isinstance(recipients, str)
                         - recipientsList = recipients.split(',')
                         - recipientsList = [ email.strip() for email in recipientsList if email.strip()]
@@ -552,7 +561,7 @@ When user submits the email composition form, add Javascript to actually sent th
                                 recipientObject = User.objects.get(username=recipientEmail)
                                 recipientObjects.append(recipientObject)
                             exept User.DoesNotExist:
-                                JsonResponse({'message': f"'User with email {recipientEmail} do not exist."})
+                                JsonResponse({'error': f"'User with email {recipientEmail} do not exist."})
                     - subject.strip()
                     - body.strip()
                 - Create a instance of class `Email` without recipents because of `ManyToMany`
@@ -612,7 +621,7 @@ When user submits the email composition form, add Javascript to actually sent th
 <summary>b. Logic</summary>
 
 <details>
-<summary>b1. Load mailbox</summary>
+<summary>b2. Load mailbox</summary>
 
 Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `archive`) which user clicks on
 
@@ -621,7 +630,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 - Email is read -> display `gray background`, email is unread -> display `white background`
 
 <details>
-<summary>b1.1. Frontend</summary>
+<summary>b2.1. Frontend</summary>
 
 - Problem to solve
     - Send an API request (url: `emails/<mailbox>`, method: `GET`) to backend
@@ -633,7 +642,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
     - URL: `emails/<mailbox>`
     - Method: `GET`
 
-- Action
+- Action flow
     - Wait for the DOM is loaded fully
     - Select all mailbox buttons `inbox`, `sent`, `archive`
     - Iterate through the list of buttons
@@ -733,6 +742,141 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 - `response.json()` returns a `promise<JSON object>`
 </details>
 
+## 2025-07-16
+<details>
+<summary>1. Defined details of functions, models (continue)</summary>
+
+<details>
+<summary>1.5. Inbox page (continue)</summary>
+
+<details>
+<summary>b. Logic</summary>
+
+<details>
+<summary>b2. Load mailbox</summary>
+
+Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `archive`) which user clicks on
+
+- Each email is displayed in a box, means a `<div></div>`
+- Emails are ordered from the latest one to the oldest one
+- Email is read -> display `gray background`, email is unread -> display `white background`
+
+<details>
+<summary>b2.2. Backend</summary>
+
+- Problem to solve
+    - Retrive a list of emails from the database corresponding to the selected mailbox. Emails are ordered by timestamp in descending order
+    - Send back a JSON response containing a list of email objects to frontend
+
+- Input
+   - request.user
+   - request.method
+   - mailbox
+
+- Action flow
+    - Validate request.user.is_authenticated
+        - If it is False, redirect("login_view")
+        - Otherwise, process the next action
+    - Validate request.method
+        - If it is not `GET`, return JsonResponse({"error": "GET request required."}, status=405)
+        - Otherwise, process the next action
+    - Retrieve a list of emails
+        - mailbox = mailbox.lower()
+        - If mailbox = `inbox`, emailsList = Email.objects.filter(recipients=request.user).order_by("-timestamp")
+        - If mailbox = `sent`, emailsList = Email.objects.filter(sender=request.user).order_by("-timestamp")
+        - If mailbox = `archived`, emailsList = Email.objects.filter(recipients=request.user, archived=True).order_by("-timestamp")
+        - Otherwise, return JsonResponse({"error": "Invalid mailbox."}, status=404)
+    - Convert each email objects of the `emailsList` to dictionary to get a list of email dictionaries
+        - Tạo method `serialize()` trong class `Email` -> make migration -> migrate
+        - emailData = [email.serialize() for email in emailsList]
+    - Return JsonResponse(emailData, status=200, safe=False)
+
+- Output
+    - A JSON object containing a list of emails corresponding to the selected mailbox with timestamp in desceding order or a error message
+
+    ```
+        [
+            {
+                "id": 100,
+                "sender": "foo@example.com",
+                "recipients": ["bar@example.com"],
+                "subject": "Hello!",
+                "body": "Hello, world!",
+                "timestamp": "Jan 2 2020, 12:00 AM",
+                "read": false,
+                "archived": false
+            },
+            {
+                "id": 95,
+                "sender": "baz@example.com",
+                "recipients": ["bar@example.com"],
+                "subject": "Meeting Tomorrow",
+                "body": "What time are we meeting?",
+                "timestamp": "Jan 1 2020, 12:00 AM",
+                "read": true,
+                "archived": false
+            }
+        ]
+    ```
+</details>
+</details>
+
+<details>
+<summary>b3. View details of email</summary>
+
+<details>
+<summary>b3.1. Frontend</summary>
+
+- Problem to solve
+
+- Input
+
+- Action flow
+
+- Output
+
+</details>
+
+<details>
+<summary>b3.2. Backend</summary>
+
+- Problem to solve
+
+- Input
+
+- Action flow
+
+- Output
+
+</details>
+
+</details>
+
+
+</details>
+
+</details>
+
+</details>
+
+<details>
+<summary>2. Learning notes</summary>
+
+- `request.user`
+    - If user does not log in, `request.user` is considered as `AnonymousUser`in Django
+
+- We must authenticate the user before processing any action
+    - Otherwise, if the developer writes code like `emails = Email.objects.filter(archived=True)` without filtering by the user, UI maybe display all archived emails from the entire DB
+
+- `Email.objects.filter()`
+    - Not return `None` if not found object, it returns a empty list.
+    - If queryset is not empty, it returns a list of object
+    - Must convert each object to string to transform the data through internet
+
+- `isoformat()`
+    - `timestamp` is datetime object -> must convert to string using `isoformat()` to transform the data through internet
+
+</details>
 
 ## Notes
 
