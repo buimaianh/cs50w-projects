@@ -114,9 +114,9 @@ Single-page front-end email client built with JavaScript
 <details>
 <summary>a. `User` table</summary>
 
-    Where stores users registered
+Where stores users registered new account
 
-    Inherit from `AbstractUser` model provided by Django, not add or change any fields.
+Inherit from `AbstractUser` model provided by Django, not add or change any fields.
 </details>
 
 <details>
@@ -375,7 +375,7 @@ When user submits the email composition form, add Javascript to actually sent th
 
 - Prolem to solve
     - Make an API request (url: `emails`, method: `POST`, email contents from user input) to backend
-    - Get a corresponding reponse from backend about sending email result
+    - Display sending result on UI
 
 - Input
     - Button: `Send`
@@ -397,63 +397,36 @@ When user submits the email composition form, add Javascript to actually sent th
     - Wait for the DOM is loaded fully
     - Select button `Send`
     - Add an `onclick` event listener to the button
-    - Get values of user input
+    - Get values of user input `sender`, `recipients`, `subject`, `body`
+        - `<user input>.trim()`
+        - Validate user input
+            - If one of user input is empty
+                - console.log("Don't leave empty fields.")
+                - Create a `<div></div>` new element with class name `error-message`
+                - Add `Don't leave empty fields.` to the `error-message`
+                - Append the `error-message` to `emails-view`
+        - `recipients.split(",")` -> `<each_recipient>.trim()` -> filter no-empty recipients
     - Convert Javascript user input object to string
-    - Send a request `POST` with body `converted string` to API with url ``emails/`
-    - Before backend gets the request, if have any problem like internet is dropped, url not found,..., need to catch and handle it
-    - If backend gets request successfully, backend processes the request and send back an approriate response to frontend
-    - If the reponse is not ok, catch an error message and handle it
+    - Send a request `POST` with body `converted string` to `emails/`
+    - If there is network error, catch and handle it
+        - console.log("Error:", error)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `error` to the `error-message`
+        - Append the `error-message` to `emails-view`
+    - If it is ok, backend processes the request and send back an approriate response to frontend
+    - If the reponse is not ok, catch and handle it
+        - console.log(`HTTP error, status $response.status.`)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `HTTP error, status $response.status. $response.error` to the `error-message`
+        - Append the `error-message` to `emails-view` 
     - If the reponse is ok, convert JSON string to Javascript object
-    - Get message = 
-    - Display the response body to UI
-
-    ```    
-        function getInputUser () {
-            const recipientsInput = document.querySelector("#recipients").value;
-            const subjectInput = document.querySelector("#subject").value.trim();
-            const bodyInput = document.querySelector("#body").value.trim();
-
-            if (!recipientsInput || !subjectInput || !bodyInput) {
-                alert("Please fill in all fields.");
-                return;
-            }
-            
-            const recipientsList = recipientsInput.split(",")
-            .map(email => email.trim())
-            .filter(email => email);
-
-            const emailPayLoad = {
-                recipients: recipientsList,
-                subject: subjectInput,
-                body: bodyInput
-            };
-
-            return emailPayLoad;
-        }
-
-        function fetchSentEmail(emailPayLoad) {
-            fetch("emails/", {method: "POST", body: JSON.stringify(emailPayLoad)})
-            .then(response => {if (!response.ok) {throw new Error(`HTTP error, status:${response.status}`)}response.json()})
-            .then(result => {console.log("Email sent successfully:", result);})
-            .catch(error => {console.log("Error sending email:", error);});
-            }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const button = document.querySelector("#send");
-            button.onclick = () => {
-                const emailPayLoad = getInputUser();
-                if (emailPayLoad) {
-                    fetchSentEmail(emailPayLoad)
-                }
-            };
-        });
-
-    ```
+        - console.log("Sending email successfully.")
+        - Create a `<div></div>` new element with class name `success-message`
+        - Add `Sending email successfully.` to the `success-message`
+        - Append the `success-message` to `success-message`
 
 - Output
-
-    - Get a message "Sent the email successfully.", "Error sending the email.", "Recipients not existed", "Please fill in all fields.",...
-    - A list of emails of `sent` mailbox
+    - UI displays a message about sending result
 </details>
 
 </details>
@@ -542,11 +515,11 @@ When user submits the email composition form, add Javascript to actually sent th
     - Find `path('emails/', views.new_email, name=new_email)`
     - Process view `new_email(request)`
         - Verify that request.user logs in
-            - If not yet, return JsonResponse({'error': 'You not yet log in.'}, status=401)
+            - If not yet, return `JsonResponse({'error': 'You not yet log in.'}, status=401)`
             - If logged in, process request
         - Process request
             - If request.method != 'POST'
-                return JsonResponse({'error': 'POST request required.', status = 405})
+                return `JsonResponse({'error': 'POST request required.', status = 405})`
             - If request.method == 'POST'
                 - Get rawEmailPayLoad = request.body
                 - Convert rawEmailPayLoad from string to JSON object: emailPayLoad = rawEmailPayLoad.json()
@@ -555,7 +528,7 @@ When user submits the email composition form, add Javascript to actually sent th
                     - subject = emailPayLoad['subject']
                     - body = emailPayLoad['body']
                 - Verify user input
-                    - If not recipients or not subject or not body, return JsonResponse({'error': 'Don't leave empty fields.'}, status=400)
+                    - If not recipients or not subject or not body, return `JsonResponse({'error': 'Don't leave empty fields.'}, status=400)`
                     - If isinstance(recipients, str)
                         - recipientsList = recipients.split(',')
                         - recipientsList = [ email.strip() for email in recipientsList if email.strip()]
@@ -568,14 +541,14 @@ When user submits the email composition form, add Javascript to actually sent th
                                 recipientObject = User.objects.get(username=recipientEmail)
                                 recipientObjects.append(recipientObject)
                             exept User.DoesNotExist:
-                                JsonResponse({'error': f"'User with email {recipientEmail} do not exist."})
+                                `JsonResponse({'error': f"'User with email {recipientEmail} do not exist."})`
                     - subject.strip()
                     - body.strip()
                 - Create a instance of class `Email` without recipents because of `ManyToMany`
                     - newEmail = Email(user = request.user, sender = request.user, subject = subject, body = body)
                     - newEmail.save()
                 - Add `recipientObjects` to newEmail.recipients
-                - Return JsonResponse({'message': 'Email sent successfully.', status = 201})
+                - Return `JsonResponse({'message': 'Email sent successfully.', status = 201})`
 
 - Output
 
@@ -645,7 +618,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 
 - Problem to solve
     - Send an API request (url: `emails/<mailbox>`, method: `GET`) to backend
-    - Display a list of emails corresponding to that mailbox
+    - Display a list of emails corresponding to that mailbox or error message if have
 
 - Input
     - Buttons: `inbox`, `sent`, `archive`
@@ -661,62 +634,28 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
     - Add an `onclick` event listener to each button
     - Send a `GET` request to backend with url `emails/<mailbox>`
     - If there is a network error, catch and handle it
-    - If backend gets the request successfully, backend processes it and sends back a response to fontend
+        - console.log("Error:", error)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `error` to the `error-message`
+        - Append the `error-message` to `emails-view`
+    - If it is ok, backend processes it and sends back a response to fontend
     - Get the response from backend
     - If response is error, display an error message
+        - console.log(`HTTP error, status $response.status.`)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `HTTP error, status $response.status. $response.error` to the `error-message`
+        - Append the `error-message` to `emails-view` 
     - If response is not error, parse the JSON response returned by backend into a Javascript object
     - Get response body contains a list of email objects (each represented as a dictionary)
     - Iterate through the list
-    - Create a `<div></div>` to store each email
+    - Create a `<div></div>` new element with class name `email-item`, `data-email-id=<email_id>`, `data-mailbox` to store each email
     - Extract `sender`, `subject`, `timestamp`, `read` status
-    - Append `sender`, `subject`, `timestamp` to the `<div></div>`
+    - Append `sender`, `subject`, `timestamp` to the `email-item`
     - If `read` is False, set the background color of the email element to `white`
     - If `read` is True, set the background color of the email element to `gray`
 
-
-    ```
-        function loadMailbox(mailbox) {
-            document.addEventListener(" ", () => {
-                const mailboxButtons = document.querySelectorAll(".mailbox-btns");
-
-                mailboxButtons.forEach(mailboxButtons => {
-                    mailboxButtons.onclick = () => {
-                        const mailboxName = mailboxButtons.value;
-
-                        fetch(`emails/${mailboxName}`)
-                        .then(response => {
-                            if (!response.ok) {throw new Error(`HTTP error, status: ${response.status}`)}
-                            return response.json()
-                            })
-                        .then(emailList => {
-                            console.log("Load mailbox successfully.");
-
-                            emailList.forEach(email => {
-                                const sender = `<p>${email.sender}</p>`;
-                                const subject = `<p>${email.subject}</p>`;
-                                const timestamp = `<p>${email.timestamp}</p>`;
-                                const read = email.read;
-
-                                const emailBox = document.createElement("div");
-                                emailBox.className = "email-item"
-
-                                emailBox.innerHTML = sender + subject + timestamp;
-
-                                if (read) {emailBox.style.background = "gray"} else {emailBox.style.background = "white"}
-
-                                emailsView = document.querySelector("#emails-view")
-                                emailsView.appendChild(emailBox)
-                            })
-                        })
-                        .catch(error => console.log("Error:", error))
-                    }
-                        
-                })
-            })
-        }
-    ```
 - Output
-    - UI displays a list of emails following to order by the latest one -> the oldest one. Read email box with `white` background, unread email box with `gray` background
+    - UI displays a list of emails following to order by the latest one -> the oldest one. Read email box with `white` background, unread email box with `gray` background. Or error message if have
 
 </details>
 
@@ -781,7 +720,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 
 - Problem to solve
     - Retrive a list of emails from the database corresponding to the selected mailbox. Emails are ordered by timestamp in descending order
-    - Send back a JSON response containing a list of email objects to frontend
+    - Send back to frondent a JSON response containing a list of email objects
 
 - Input
    - request.user
@@ -856,7 +795,7 @@ When a user clicks on an email, the user should be taken to a view where they se
 
 - Problem to solve
     - Make a `GET` request to `/emails/<email_id>`
-    - Dislay the content of the email
+    - Dislay detailed contents of the email or error message if have
 
 - Input
     - Selected email box with class name `email-item` which contain `data-value="email_id"`
@@ -869,53 +808,62 @@ When a user clicks on an email, the user should be taken to a view where they se
     - Select a list of elements with class name `email-item`
     - Iterate through the list
     - Add an `onclick` event listener to the element
-    - Get `data-value=<email_id>` of the element
+    - Get email_id = `data-email-id=<email_id>` of the element
     - Make an `GET` request to `emails/<email_id>`
     - If there is network error, catch and handle it
+        - console.log("Error:", error)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `error` to the `error-message`
+        - Append the `error-message` to `emails-view`
     - Otherwise, get a response returned by backend
     - If response is error, display an error message
+        - console.log(`HTTP error, status $response.status.`)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `HTTP error, status $response.status. $response.error` to the `error-message`
+        - Append the `error-message` to `emails-view` 
     - Otherwise, parse the JSON response returned by backend into a Javascript object
     - Get response result and handle it
     - Create a new `<div></div>` to store email contents with class name `email-detail-view`
     - Get `sender`, `recipients`, `subject`, `timestamp`, `body`
-    - Add the contents to the `email-detail-view`
-    - Add the `email-detail-view` to the DOM
-
-    ```
-        function loadDetailedEmail() {
-            document.addEventListener("DOMContentLoaded", () => {
-                document.querySelectorAll(".email-item").forEach(emailItem => {
-                    emailItem.onclick = () => {
-                        const email_id = emailItem.dataset.value;
-                        fetch(`emails/${email_id}`)
-                        .then(response => {
-                            if (!response.ok) {throw new Error(`HTTP error, status: ${response.status`});}
-                            return response.json()
-                        })
-                        .then(emailContents => {
-                            const emailDetailView = document.createElement("div");
-                            emailDetailView.className = "email-detail-view"
-                            const emailHTML = `
-                                <p>From: ${emailContents.sender}</p>
-                                <p>To: ${emailContents.recipients}</p>
-                                <p>Subject: ${emailContents.subject}</p>
-                                <p>${emailContents.timestamp}</p>
-                                <textarea>${emailContents.body}</textarea>`;
-
-                                emailDetailView.innerHTML = emailHTML;
-
-                                document.querySelector("#emails-view").innerHTML = ""
-                                document.querySelector("#emails-view").appendChild(emailDetailView);
-                        })
-                        .catch(error => console.log("Error:", error))
-                    }
-                })
-            })
-        }
-    ```
+    - Get mailbox = `data-mailbox=<mailbox>`
+    - If mailbox = `inbox`
+        - emailContents = 
+        `
+            <p>$request.sender</p>
+            <p>$request.recipients</p>
+            <p>$request.subject</p>
+            <p>$request.timestamp</p>
+            <button id="reply-btn" data-email-id=`$email_id`>Reply</button>
+            <button id="archived-btn" data-email-id=`$email_id`>Archived</button>
+            <p>$request.body</p>
+            <p>$request.sender</p>
+        `
+    - If mailbox = `archived`
+        - emailContents = 
+        `
+            <p>$request.sender</p>
+            <p>$request.recipients</p>
+            <p>$request.subject</p>
+            <p>$request.timestamp</p>
+            <button id="unarchived" data-email-id=`$email_id`>Unarchived</button>
+            <p>$request.body</p>
+            <p>$request.sender</p>
+        `
+    - If mailbox = `sent`
+        - emailContents = 
+        `
+            <p>$request.sender</p>
+            <p>$request.recipients</p>
+            <p>$request.subject</p>
+            <p>$request.timestamp</p>
+            <p>$request.body</p>
+            <p>$request.sender</p>
+        `
+    - Add `emailContents` to the `email-detail-view`
+    - Add the `email-detail-view` to the `emails-view`
     
 - Output
-    - UI dislays `sender`, `recipients`, `subject`, `timestamp`, `body` of a certain email
+    - UI dislays `sender`, `recipients`, `subject`, `timestamp`, `body` of a certain email or or error message if have
 </details>
 
 <details>
@@ -923,7 +871,7 @@ When a user clicks on an email, the user should be taken to a view where they se
 
 - Problem to solve
     - Filter an email by `email_id` and `request.user`
-    - Send back an reponse containing a dictionary to frontend
+    - Send back to frontend an reponse containing a email contents dictionary
 
 - Input
     - `email_id`
@@ -936,8 +884,9 @@ When a user clicks on an email, the user should be taken to a view where they se
     - Validate request.method
         - If it is not `GET`, return `JsonResponse({"error": "GET request required."}, status=405)`
         - Otherwise, process the next action
-    - Filter an email by `email_id` and `request.user`
-    - Serialize the email
+    - Get an email by `email_id` and `request.user`
+        - If there is error, return `JsonResponse({"error": "Not found."}, status=404)`
+        - Otherwise, serialize the email
     - Return `JsonResponse(email, safe=False, status=200)`
 
 - Output
@@ -973,7 +922,7 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
 
 - Problem to solve
     - Send a `PUT` request to `/emails/<email_id>`
-    - Get a message about updating result
+    - Display a message about the result of updating read status
 
 - Input
     - `email_id`
@@ -988,17 +937,25 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
     - Get `data-value=<email_id>` of the element
     - Make a `PUT` request to `/emails/<email_id>`
     - If there is network error, catch and handle it
+        - console.log("Error:", error)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `error` to the `error-message`
+        - Append the `error-message` to `emails-view`
     - Otherwise, get a response returned by backend
     - If response is error, display an error message
+        - console.log(`HTTP error, status $response.status.`)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `HTTP error, status $response.status. $response.error` to the `error-message`
+        - Append the `error-message` to `emails-view` 
     - Otherwise, parse the JSON response returned by backend into a Javascript object
     - Get response result and handle it
-    - Create a new `<div></div>` to store email contents with class name `message-view`
-    - Get message =  result.message
-    - Add the message to the `message-view`
-    - Add `message-view` to the DOM
+        - console.log("Marked as read.")
+        - Create a `<div></div>` new element with class name `success-message`
+        - Add `Marked as read.` to the `success-message`
+        - Append the `success-message` to `emails-view`
 
 - Output
-    - UI displays a message about updating result
+    - UI displays a message about the result of updating email
 
 </details>
 
@@ -1006,12 +963,29 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
 <summary>b4.2. Backend</summary>
 
 - Problem to solve
+    - Mark an `email_id` as read
+    - Send back to frontend a response about result of updating read status
 
 - Input
+    - `email_id`
+    - URL: `emails/<email_id>`
+    - method: `PUT`
 
 - Action flow
+    - Validate `request.user.is_authenticated`
+        - If it is `False`, redirect("login_view")
+        - Otherwise, process the next action
+    - Validate request.method
+        - If it is not `PUT`, return `JsonResponse({"error": "PUT request required."}, status=405)`
+        - Otherwise, process the next action
+    - Get an email by `email_id` and `request.user`
+        - If there is error, return `JsonResponse({"error": "Not found."}, status=404)`
+        - Otherwise, change `read` field to `True`
+    - Save the `email`
+    - Return `JsonResponse({"message": "Marked as read."}, status=200)`
 
 - Output
+    - An HTTP response formatted JSON containing a message about the result of updating read status
 
 </details>
 </details>
@@ -1022,18 +996,49 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
 <details>
 <summary>Goal</summary>
 
+User can archive and unarchive emails that they have received.
+- Inbox email: click `Archived` button: `archived=False` -> `archived=True`
+- Archived email: click `Unarchived` button: `archived=True` -> `archived=False`
 </details>
 
 <details>
 <summary>b5.1. Frontend</summary>
 
 - Problem to solve
+    - Send a `PUT` request to `/emails/<email_id>`
+    - Display a message about the result of updating archive status
 
 - Input
+    - `email_id`
+    - Method: `PUT`
+    - URL: `/emails/<email_id>`
 
 - Action flow
+    - Wait for the DOM is loaded fully
+    - Select `Archived`/`Unarchived` button
+    - Add an `onclick` event listener to the button
+    - Get `data-value=<email_id>` of the element
+    - Make a `PUT` request to `/emails/<email_id>`
+    - If there is network error, catch and handle it
+        - console.log("Error:", error)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `error` to the `error-message`
+        - Append the `error-message` to `emails-view`
+    - Otherwise, get a response returned by backend
+    - If response is error, display an error message
+        - console.log(`HTTP error, status $response.status.`)
+        - Create a `<div></div>` new element with class name `error-message`
+        - Add `HTTP error, status $response.status. $response.error` to the `error-message`
+        - Append the `error-message` to `emails-view` 
+    - Otherwise, parse the JSON response returned by backend into a Javascript object
+    - Get response result and handle it
+        - console.log("Archived.")/console.log("Unarchived.")
+        - Create a `<div></div>` new element with class name `success-message`
+        - Add `Archived.`/`Urachived.` to the `success-message`
+        - Append the `success-message` to `emails-view`
 
 - Output
+    - UI displays a message about the result of updating archive status
 
 </details>
 
@@ -1041,12 +1046,30 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
 <summary>b5.2. Backend</summary>
 
 - Problem to solve
+    - Mark an `email_id` as archived/unarchived
+    - Send back to frontend a response about result of updating archive status
 
 - Input
+    - `email_id`
+    - URL: `emails/<email_id>`
+    - method: `PUT`
 
 - Action flow
+    - Validate `request.user.is_authenticated`
+        - If it is `False`, redirect("login_view")
+        - Otherwise, process the next action
+    - Validate request.method
+        - If it is not `PUT`, return `JsonResponse({"error": "PUT request required."}, status=405)`
+        - Otherwise, process the next action
+    - Get an email by `email_id` and `request.user`
+        - If there is error, return `JsonResponse({"error": "Not found."}, status=404)`
+        - Otherwise, change `archived` field to `not archived`
+    - Save the `email`
+    - message = "Achived." if email.archived else "Unarchived."
+    - Return `JsonResponse({"message": message}, status=200)`
 
 - Output
+    - An HTTP response formatted JSON containing a message about the result of updating archive status
 
 </details>
 </details>
@@ -1057,12 +1080,15 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
 <details>
 <summary>Goal</summary>
 
+User can reply an email
+- Pre-fill: recipients = sender, subject =  subject, body = `"On <timestamp> <sender_email> wrote: <email_body>"`
 </details>
 
 <details>
 <summary>b6.1. Frontend</summary>
 
 - Problem to solve
+    - 
 
 - Input
 
