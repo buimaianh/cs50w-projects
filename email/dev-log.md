@@ -601,6 +601,13 @@ When user submits the email composition form, add Javascript to actually sent th
 <summary>b. Logic</summary>
 
 <details>
+<summary>b1. Send email (done)</summary>
+
+- [Frontend](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-10)
+- [Backend](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-12)
+</details>
+
+<details>
 <summary>b2. Load mailbox</summary>
 
 <details>
@@ -703,7 +710,18 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 <summary>b. Logic</summary>
 
 <details>
+<summary>b1. Send email (done)</summary>
+
+- [Frontend](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-10)
+- [Backend](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-12)
+</details>
+
+<details>
 <summary>b2. Load mailbox (done)</summary>
+
+<details>
+<summary>b2.1. Frontend (done) <a href="https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-14">See details here</a></summary>
+</details>
 
 <details>
 <summary>Goal</summary>
@@ -1116,26 +1134,33 @@ User can archive and unarchive emails that they have received.
 <details>
 <summary>b1. Send email (done)</summary>
 
+- [Frontend](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-10)
+- [Backend](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-12)
 </details>
 
 <details>
 <summary>b2. Load mailbox (done)</summary>
 
+- [Frontend](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-14)
+- [Backend](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-16)
 </details>
 
 <details>
 <summary>b3. Display details of an email (done)</summary>
 
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-16)
 </details>
 
 <details>
 <summary>b4. Mark an email as read (done)</summary>
 
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-16)
 </details>
 
 <details>
 <summary>b5. Archive an email (done)</summary>
 
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log.md#2025-07-16)
 </details>
 
 <details>
