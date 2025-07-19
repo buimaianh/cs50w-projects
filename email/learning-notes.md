@@ -43,7 +43,7 @@
     - Read their usages
     - Pick up correct field type
 
-- `How doese Django authenticate username and password`
+- `How does Django authenticate username and password`
 
     - Search if username exists in `User` table
     - If existed, get hashed password corresponding to the username
