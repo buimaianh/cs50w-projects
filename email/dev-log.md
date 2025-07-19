@@ -777,7 +777,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
 </details>
 
 <details>
-<summary>b3. Display details of an email</summary>
+<summary>b3. Display details of an email (done)</summary>
 
 <details>
 <summary>Goal</summary>
@@ -907,7 +907,7 @@ Display the content of an email.
 </details>
 
 <details>
-<summary>b4. Mark an email as read</summary>
+<summary>b4. Mark an email as read (done)</summary>
 
 <details>
 <summary>Goal</summary>
@@ -985,7 +985,7 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
 </details>
 
 <details>
-<summary>b5. Archive an email</summary>
+<summary>b5. Archive an email (done)</summary>
 
 <details>
 <summary>Goal</summary>
