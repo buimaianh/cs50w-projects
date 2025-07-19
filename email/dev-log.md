@@ -828,8 +828,6 @@ When a user clicks on an email, the user should be taken to a view where they se
     - Get mailbox = `data-mailbox=<mailbox>`
     - If mailbox = `inbox`
         - emailContents = 
-
-        `
             `<p>$request.sender</p>`
             `<p>$request.recipients</p>`
             `<p>$request.subject</p>`
@@ -838,12 +836,9 @@ When a user clicks on an email, the user should be taken to a view where they se
             `<button id="archived-btn" data-email-id="$email_id">Archived</button>`
             `<p>$request.body</p>`
             `<p>$request.sender</p>`
-        `
 
     - If mailbox = `archived`
         - emailContents = 
-
-        `
             `<p>$request.sender</p>`
             `<p>$request.recipients</p>`
             `<p>$request.subject</p>`
@@ -851,19 +846,15 @@ When a user clicks on an email, the user should be taken to a view where they se
             `<button id="unarchived" data-email-id="$email_id">Unarchived</button>`
             `<p>$request.body</p>`
             `<p>$request.sender</p>`
-        `
 
     - If mailbox = `sent`
         - emailContents = 
-
-        `
             `<p>$request.sender</p>`
             `<p>$request.recipients</p>`
             `<p>$request.subject</p>`
             `<p>$request.timestamp</p>`
             `<p>$request.body</p>`
             `<p>$request.sender</p>`
-        `
 
     - Add `emailContents` to the `email-detail-view`
     - Add the `email-detail-view` to the `emails-view`
