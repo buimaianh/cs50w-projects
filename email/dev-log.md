@@ -3,10 +3,10 @@
 A single-page front-end email client built with JavaScript.
 
 ## 2025-07-07
-[Overview the project](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-07.md)
+[Overview the project](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-07.md)
 
 ## 2025-07-08
-[Listed down main functions, DB](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-08.md)
+[Listed down main functions, DB](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-08.md)
 
 ## 2025-07-09
 Defined details of functions, models
@@ -18,7 +18,7 @@ Defined details of functions, models
 - Inbox page
     - UI
 
-[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-09.md)
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-09.md)
 
 ## 2025-07-10
 Defined details of functions, models (Continue)
@@ -28,7 +28,7 @@ Defined details of functions, models (Continue)
         - Send email
             - Frontend
 
-[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-10.md)
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-10.md)
 
 ## 2025-07-12
 Defined details of functions, models (Continue)
@@ -38,7 +38,7 @@ Defined details of functions, models (Continue)
         - Send email (continue)
             - Backend
 
-[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-12.md)
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-12.md)
 
 ## 2025-07-14
 Defined details of functions, models (Continue)
@@ -48,7 +48,7 @@ Defined details of functions, models (Continue)
         - Load mailbox
             - Frontend
 
-[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-14.md)
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-14.md)
 
 ## 2025-07-16
 Defined details of functions, models (Continue)
@@ -61,7 +61,7 @@ Defined details of functions, models (Continue)
         - Mark an email as read
         - Archive an email
 
-[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-16.md)
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-16.md)
 
 ## 2025-07-19
 Defined details of functions, models (Continue)
@@ -70,4 +70,4 @@ Defined details of functions, models (Continue)
     - Logic
         - Reply email
 
-[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-019.md)
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-019.md)
