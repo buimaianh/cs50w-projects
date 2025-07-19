@@ -8,7 +8,7 @@ A single-page front-end email client built with JavaScript.
 ## 2025-07-08
 [Listed down main functions, DB](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-08.md)
 
-## 2025-07-09 <a href="https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-09.md">See details here</a>
+## 2025-07-09
 Defined details of functions, models
 
 - Tables of database
