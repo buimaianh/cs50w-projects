@@ -2,13 +2,13 @@
 
 A single-page front-end email client built with JavaScript.
 
-### 2025-07-07
+## 2025-07-07
 [Overview the project](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-07.md)
 
-### 2025-07-08
+## 2025-07-08
 [Listed down main functions, DB](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-08.md)
 
-### 2025-07-09
+## 2025-07-09
 Defined details of functions, models
 
 - Tables of database
@@ -20,7 +20,7 @@ Defined details of functions, models
 
 [See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-09.md)
 
-### 2025-07-10
+## 2025-07-10
 Defined details of functions, models (Continue)
 
 - Inbox page
@@ -30,7 +30,7 @@ Defined details of functions, models (Continue)
 
 [See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-10.md)
 
-### 2025-07-12
+## 2025-07-12
 Defined details of functions, models (Continue)
 
 - Inbox page
@@ -40,7 +40,7 @@ Defined details of functions, models (Continue)
 
 [See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-12.md)
 
-### 2025-07-14
+## 2025-07-14
 Defined details of functions, models (Continue)
 
 - Inbox page
@@ -50,7 +50,7 @@ Defined details of functions, models (Continue)
 
 [See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-14.md)
 
-### 2025-07-16
+## 2025-07-16
 Defined details of functions, models (Continue)
 
 - Inbox page
@@ -63,7 +63,7 @@ Defined details of functions, models (Continue)
 
 [See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/documents/2025-07-16.md)
 
-### 2025-07-19
+## 2025-07-19
 Defined details of functions, models (Continue)
 
 - Inbox page
