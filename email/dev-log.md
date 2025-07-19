@@ -16,7 +16,7 @@ A single-page front-end email client built with JavaScript.
 - Default route `index`
 - Send Mail
 - Load mailbox
-- View details of email
+- Display details of an email
 - Mark an email as read
 - Archive an email
 - Reply the email
@@ -57,7 +57,7 @@ Single-page front-end email client built with JavaScript
 
 - Send Mail
 - Load mailbox
-- View details of email
+- Display details of an email
 - Mark an email as read
 - Archive an email
 - Reply the email
@@ -648,7 +648,7 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
     - If response is not error, parse the JSON response returned by backend into a Javascript object
     - Get response body contains a list of email objects (each represented as a dictionary)
     - Iterate through the list
-    - Create a `<div></div>` new element with class name `email-item`, `data-email-id=<email_id>`, `data-mailbox` to store each email
+    - Create a `<div></div>` new element with class name `email-item`, `data-email-id="${email_id}"`, `data-mailbox="${mailbox}"` to store each email
     - Extract `sender`, `subject`, `timestamp`, `read` status
     - Append `sender`, `subject`, `timestamp` to the `email-item`
     - If `read` is False, set the background color of the email element to `white`
@@ -772,16 +772,17 @@ Display a list of emails corresponding to `mailbox` name (`inbox`, `sent`, `arch
             }
         ]
     ```
+
 </details>
 </details>
 
 <details>
-<summary>b3. View details of email</summary>
+<summary>b3. Display details of an email</summary>
 
 <details>
 <summary>Goal</summary>
 
-When a user clicks on an email, the user should be taken to a view where they see the content of that email.
+Display the content of an email.
 
 - `sender`
 - `recipients`
@@ -795,10 +796,10 @@ When a user clicks on an email, the user should be taken to a view where they se
 
 - Problem to solve
     - Make a `GET` request to `/emails/<email_id>`
-    - Dislay detailed contents of the email or error message if have
+    - Dislay detailed content of the email or error message if have
 
 - Input
-    - Selected email box with class name `email-item` which contain `data-value="email_id"`
+    - Selected email box with class name `email-item` which contain `data-email-id="<email_id>"`, `data-mailbox="<mailbox>"`
     - Event: `onclick`
     - URL: `/emails/<email_id>`
     - Method" `GET`
@@ -808,7 +809,7 @@ When a user clicks on an email, the user should be taken to a view where they se
     - Select a list of elements with class name `email-item`
     - Iterate through the list
     - Add an `onclick` event listener to the element
-    - Get email_id = `data-email-id=<email_id>` of the element
+    - Get email_id = `data-email-id="<email_id>"`, mailbox = `data-mailbox=<mailbox>` of the element
     - Make an `GET` request to `emails/<email_id>`
     - If there is network error, catch and handle it
         - console.log("Error:", error)
@@ -825,17 +826,17 @@ When a user clicks on an email, the user should be taken to a view where they se
     - Get response result and handle it
     - Create a new `<div></div>` to store email contents with class name `email-detail-view`
     - Get `sender`, `recipients`, `subject`, `timestamp`, `body`
-    - Get mailbox = `data-mailbox=<mailbox>`
+    - Get mailbox = `data-mailbox="<mailbox>"`
     - If mailbox = `inbox`
         - emailContents = 
             `<p>$request.sender</p>`
             `<p>$request.recipients</p>`
             `<p>$request.subject</p>`
             `<p>$request.timestamp</p>`
-            `<button id="reply-btn" data-email-id="$email_id">Reply</button>`
-            `<button id="archived-btn" data-email-id="$email_id">Archived</button>`
+            `<button id="reply-btn" data-email-id="${email_id}">Reply</button>`
+            `<button id="archived-btn" data-email-id="${email_id}">Archived</button>`
+            `<hr>`
             `<p>$request.body</p>`
-            `<p>$request.sender</p>`
 
     - If mailbox = `archived`
         - emailContents = 
@@ -843,9 +844,9 @@ When a user clicks on an email, the user should be taken to a view where they se
             `<p>$request.recipients</p>`
             `<p>$request.subject</p>`
             `<p>$request.timestamp</p>`
-            `<button id="unarchived" data-email-id="$email_id">Unarchived</button>`
+            `<button id="unarchived" data-email-id="${email_id}">Unarchived</button>`
+            `<hr>`
             `<p>$request.body</p>`
-            `<p>$request.sender</p>`
 
     - If mailbox = `sent`
         - emailContents = 
@@ -853,8 +854,8 @@ When a user clicks on an email, the user should be taken to a view where they se
             `<p>$request.recipients</p>`
             `<p>$request.subject</p>`
             `<p>$request.timestamp</p>`
+            `<hr>`
             `<p>$request.body</p>`
-            `<p>$request.sender</p>`
 
     - Add `emailContents` to the `email-detail-view`
     - Add the `email-detail-view` to the `emails-view`
@@ -927,11 +928,7 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
     - URL: `/emails/<email_id>`
 
 - Action flow
-    - Wait for the DOM is loaded fully
-    - Select a list of elements with class name `email-item`
-    - Iterate through the list
-    - Add an `onclick` event listener to the element
-    - Get `data-value=<email_id>` of the element
+    - Get email_id = `data-email-id=<email_id>` of the email
     - Make a `PUT` request to `/emails/<email_id>`
     - If there is network error, catch and handle it
         - console.log("Error:", error)
@@ -940,7 +937,7 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
         - Append the `error-message` to `emails-view`
     - Otherwise, get a response returned by backend
     - If response is error, display an error message
-        - console.log(`HTTP error, status $response.status.`)
+        - console.log(`HTTP error, status $response.status. $response.error`)
         - Create a `<div></div>` new element with class name `error-message`
         - Add `HTTP error, status $response.status. $response.error` to the `error-message`
         - Append the `error-message` to `emails-view` 
@@ -952,7 +949,7 @@ Once an email has been clicked on, should mark the email as read. Send a `PUT` r
         - Append the `success-message` to `emails-view`
 
 - Output
-    - UI displays a message about the result of updating email
+    - UI displays a message about the result of updating read status
 
 </details>
 
@@ -1003,18 +1000,19 @@ User can archive and unarchive emails that they have received.
 
 - Problem to solve
     - Send a `PUT` request to `/emails/<email_id>`
-    - Display a message about the result of updating archive status
+    - Display a message about the result of updating archived status
 
 - Input
+    - Buttons: `archived`, `unarchived`
     - `email_id`
     - Method: `PUT`
     - URL: `/emails/<email_id>`
 
 - Action flow
     - Wait for the DOM is loaded fully
-    - Select `Archived`/`Unarchived` button
+    - Select an `#archived-btn`/`#unarchived-btn` button
     - Add an `onclick` event listener to the button
-    - Get `data-value=<email_id>` of the element
+    - Get email_id = `data-email-id=<email_id>` of the button
     - Make a `PUT` request to `/emails/<email_id>`
     - If there is network error, catch and handle it
         - console.log("Error:", error)
@@ -1023,7 +1021,7 @@ User can archive and unarchive emails that they have received.
         - Append the `error-message` to `emails-view`
     - Otherwise, get a response returned by backend
     - If response is error, display an error message
-        - console.log(`HTTP error, status $response.status.`)
+        - console.log(`HTTP error, status $response.status. $response.error`)
         - Create a `<div></div>` new element with class name `error-message`
         - Add `HTTP error, status $response.status. $response.error` to the `error-message`
         - Append the `error-message` to `emails-view` 
@@ -1031,11 +1029,11 @@ User can archive and unarchive emails that they have received.
     - Get response result and handle it
         - console.log("Archived.")/console.log("Unarchived.")
         - Create a `<div></div>` new element with class name `success-message`
-        - Add `Archived.`/`Urachived.` to the `success-message`
+        - Add `Archived.`/`Unarchived` to the `success-message`
         - Append the `success-message` to `emails-view`
 
 - Output
-    - UI displays a message about the result of updating archive status
+    - UI displays a message about the result of updating archived status
 
 </details>
 
@@ -1060,9 +1058,9 @@ User can archive and unarchive emails that they have received.
         - Otherwise, process the next action
     - Get an email by `email_id` and `request.user`
         - If there is error, return `JsonResponse({"error": "Not found."}, status=404)`
-        - Otherwise, change `archived` field to `not archived`
+        - Otherwise, change `archived` = `not archived`
     - Save the `email`
-    - message = "Achived." if email.archived else "Unarchived."
+    - message = "Archived." if email.archived else "Unarchived."
     - Return `JsonResponse({"message": message}, status=200)`
 
 - Output
@@ -1072,41 +1070,8 @@ User can archive and unarchive emails that they have received.
 </details>
 
 <details>
-<summary>b6. Reply the email</summary>
+<summary>b6. Reply the email (to be continued)</summary>
 
-<details>
-<summary>Goal</summary>
-
-User can reply an email
-- Pre-fill: recipients = sender, subject =  subject, body = `"On <timestamp> <sender_email> wrote: <email_body>"`
-</details>
-
-<details>
-<summary>b6.1. Frontend</summary>
-
-- Problem to solve
-    - 
-
-- Input
-
-- Action flow
-
-- Output
-
-</details>
-
-<details>
-<summary>b6.2. Backend</summary>
-
-- Problem to solve
-
-- Input
-
-- Action flow
-
-- Output
-
-</details>
 </details>
 
 </details>
@@ -1134,6 +1099,118 @@ User can reply an email
 
 - `isoformat()`
     - `timestamp` is datetime object -> must convert to string using `isoformat()` to transform the data through internet
+
+</details>
+
+## 2025-07-19
+
+<details>
+<summary>1. Defined details of functions, models (continue)</summary>
+
+<details>
+<summary>1.5. Inbox page (continue)</summary>
+
+<details>
+<summary>b. Logic</summary>
+
+<details>
+<summary>b1. Send email (done)</summary>
+
+</details>
+
+<details>
+<summary>b2. Load mailbox (done)</summary>
+
+</details>
+
+<details>
+<summary>b3. Display details of an email (done)</summary>
+
+</details>
+
+<details>
+<summary>b4. Mark an email as read (done)</summary>
+
+</details>
+
+<details>
+<summary>b5. Archive an email (done)</summary>
+
+</details>
+
+<details>
+<summary>b6. Reply the email</summary>
+
+<details>
+<summary>Goal</summary>
+
+User can reply an email
+- Pre-fill: recipients = sender, subject =  subject, body = `"On <timestamp> <sender_email> wrote: <email_body>"`
+</details>
+
+<details>
+<summary>b6.1. Frontend</summary>
+
+- Problem to solve
+    - Pre-fill some values to composition form
+
+- Input
+    - Button: `Reply`
+    - Event: `onclick`
+    - Displayed email content in `email-detail-view`
+
+- Action flow
+    - Wait for the DOM is loaded fully
+    - Select an `#reply-btn` button
+    - Add an `onclick` event listener to the button
+    - Get values from displayed email content in `email-detail-view` to pre-fill compostiton form
+        - `recipients = #email-sender.innerHTML`
+        - `subject =  #email-subject.innerHTML`
+            - If `Re: ` in subject, return replySubject = subject
+            - Otherwise, return replySubject = `Re: ${subject}`
+        - `body = #email-body.innerHTML`
+        - `timestamp =  #email-timestamp.innerHTML`
+    - Hide `emails-view`
+    - Show `compose-view`
+    - Select and replace values of `input` elements of `compose-view`
+        - document.querySelector("#compose-sender").value = request.user
+        - document.querySelector("#compose-recipients").value = recipients
+        - document.querySelector("#compose-subject").value = replySubject
+        - document.querySelector("#compose-body").value = `/n/nOn ${timestamp recipients} wrote: /n${body}`
+
+- Output
+
+</details>
+
+<details>
+<summary>b6.2. Backend</summary>
+
+- Problem to solve (N/A)
+
+- Input (N/A)
+
+- Action flow (N/A)
+
+- Output (N/A)
+
+</details>
+</details>
+
+</details>
+
+
+</details>
+
+</details>
+
+</details>
+
+<details>
+<summary>2. Learning notes</summary>
+
+- `.value`, `.innerHTML`
+    - `.value` for values of user input  (`input`, `select`, `textarea`)
+    - `.innerHTML` for displayed HTML content (`div`, `p`, ...)
 
 </details>
 
