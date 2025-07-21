@@ -68,6 +68,10 @@ Defined details of functions, models (Continue)
     - Inbox page
         - Logic
             - Reply email
-- Create a to-do list to develop the app
-
+- Create a development todo list
 [See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-19.md)
+
+## 2025-07-21
+- Summarize new knowledge about some keywords searched on 2025-07-19
+
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-21.md)
