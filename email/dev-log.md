@@ -70,4 +70,4 @@ Defined details of functions, models (Continue)
     - Logic
         - Reply email
 
-[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-019.md)
+[See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-19.md)
