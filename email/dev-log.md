@@ -64,10 +64,10 @@ Defined details of functions, models (Continue)
 [See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-16.md)
 
 ## 2025-07-19
-Defined details of functions, models (Continue)
-
-- Inbox page
-    - Logic
-        - Reply email
+- Defined details of functions, models (Continue)
+    - Inbox page
+        - Logic
+            - Reply email
+- Create a to-do list to develop the app
 
 [See details here](https://github.com/buimaianh/cs50w-projects/blob/main/email/dev-log-details/2025-07-19.md)
